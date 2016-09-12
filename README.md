@@ -1,0 +1,2 @@
+# LightInkLog
+format log lib
