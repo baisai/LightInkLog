@@ -1,2 +1,3 @@
 # LightInkLog
-format log lib
+
+format log lib from prject LightInk
