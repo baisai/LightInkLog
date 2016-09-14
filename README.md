@@ -1,6 +1,6 @@
 # LightInkLog
 
-format log lib from prject LightInk
+format log lib from project LightInk
 
 # Use
 
