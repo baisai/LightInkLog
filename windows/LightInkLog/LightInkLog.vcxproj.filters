@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{88528d95-8de4-48cc-ab40-8d07004fe565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\include">
+      <UniqueIdentifier>{5168657c-6ada-47ed-a062-636b9493e0ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\source">
+      <UniqueIdentifier>{5b7bd9b4-557e-4554-8e9f-d0c3bc489c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{1cd00634-f230-4749-96d3-5b99ff645633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\include">
+      <UniqueIdentifier>{49544984-48db-4719-8125-05a51992c3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\source">
+      <UniqueIdentifier>{49d9732a-fa2b-419b-af3a-e02b182e83b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fmt">
+      <UniqueIdentifier>{6346e71a-31b6-4327-9097-1579c6bfd738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\include\helper">
+      <UniqueIdentifier>{5619a20c-5fc3-4f84-b5c9-b2db99d85801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\include\channel">
+      <UniqueIdentifier>{bb698207-668b-4b45-984d-0acd5acca0ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\source\channel">
+      <UniqueIdentifier>{0dc1c4d1-513e-4739-8707-b24894c25263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\source\helper">
+      <UniqueIdentifier>{7bb2a85b-9a40-432b-9c16-16ad9e883f2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\include\async">
+      <UniqueIdentifier>{24ab491f-1e09-4b7a-a5fc-cbbad03eadcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\source\async">
+      <UniqueIdentifier>{80915a4d-6b2f-40f0-889c-641158cf7d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Atomic">
+      <UniqueIdentifier>{aa0fe217-404f-40f3-9735-36e4d06836a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Atomic\include">
+      <UniqueIdentifier>{d8414ae7-92a4-4e9a-a545-40a5162edaa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Atomic\source">
+      <UniqueIdentifier>{d07b58be-5897-457e-b3c6-7f2ddc4b7056}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\Log\LogConfig.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\LoggerMgr.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\LogFormat.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\Logger.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fmt\fmt.h">
+      <Filter>fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fmt\format.h">
+      <Filter>fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fmt\format.hpp">
+      <Filter>fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fmt\ostream.h">
+      <Filter>fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\fmt\ostream.hpp">
+      <Filter>fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\LogItem.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\LogOption.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannel.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelMT.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelList.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelAndroid.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelNull.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelStd.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelStdColor.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\helper\FileHelper.h">
+      <Filter>Log\include\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\helper\OsHelper.h">
+      <Filter>Log\include\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelFile.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\LogThreadType.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelMsvc.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\LogChannelOstream.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\helper\FormatHelper.h">
+      <Filter>Log\include\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\LogFlagFormat.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\channel\DateNameStrategy.h">
+      <Filter>Log\include\channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\FixedLogger.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\helper\LogTraceHelper.h">
+      <Filter>Log\include\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\Log.h">
+      <Filter>Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\async\AsyncThread.h">
+      <Filter>Log\include\async</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Log\async\AsyncMsg.h">
+      <Filter>Log\include\async</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\AsyncQueue.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\AutoPtr.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\Config.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\LightInkVersion.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\RefCounter.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\RuntimeError.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\SharedPtr.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\stdint_msvc2008.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\Type.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\TypeTool.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\WinSnprintf.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\SingletonBase.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\STLType.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\SmallObject.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\UserMemory.h">
+      <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Atomic\Atomic.h">
+      <Filter>Atomic\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Atomic\mintomic.h">
+      <Filter>Atomic\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Atomic\Guard.h">
+      <Filter>Atomic\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Log\LogOption.cpp">
+      <Filter>Log\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\channel\LogChannelAndroid.cpp">
+      <Filter>Log\source\channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\channel\LogChannelStdColor.cpp">
+      <Filter>Log\source\channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\helper\FileHelper.cpp">
+      <Filter>Log\source\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\channel\DateNameStrategy.cpp">
+      <Filter>Log\source\channel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\LogFormat.cpp">
+      <Filter>Log\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\helper\FormatHelper.cpp">
+      <Filter>Log\source\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\Logger.cpp">
+      <Filter>Log\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\LoggerMgr.cpp">
+      <Filter>Log\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\async\AsyncThread.cpp">
+      <Filter>Log\source\async</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Log\async\AsyncMsg.cpp">
+      <Filter>Log\source\async</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\Common\AutoPtr.cpp">
+      <Filter>Common\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\include\Common\SharedPtr.cpp">
+      <Filter>Common\include</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\LightInkVersion.cpp">
+      <Filter>Common\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\RuntimeError.cpp">
+      <Filter>Common\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\WinSnprintf.c">
+      <Filter>Common\source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Common\SmallObject.cpp">
+      <Filter>Common\source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

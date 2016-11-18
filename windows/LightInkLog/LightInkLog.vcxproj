@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50C6AA48-8930-4699-88D3-7111B09DED8F}</ProjectGuid>
+    <RootNamespace>LightInkLog</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.61030.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\Debug\</OutDir>
+    <IntDir>..\Obj_d\$(ProjectName)\</IntDir>
+    <LinkIncremental>
+    </LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental />
+    <OutDir>..\x64\Debug\</OutDir>
+    <IntDir>..\x64\Obj_d\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\Release\</OutDir>
+    <IntDir>..\Obj_r\$(ProjectName)\</IntDir>
+    <LinkIncremental>
+    </LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental />
+    <OutDir>..\x64\Release\</OutDir>
+    <IntDir>..\x64\Obj_r\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIGHTINK_AS_DLL;LIGHTINK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;LIGHTINK_AS_DLL;LIGHTINK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIGHTINK_AS_DLL;LIGHTINK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;LIGHTINK_AS_DLL;LIGHTINK_EXPORTS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\Atomic\Atomic.h" />
+    <ClInclude Include="..\..\include\Atomic\Guard.h" />
+    <ClInclude Include="..\..\include\Atomic\mintomic.h" />
+    <ClInclude Include="..\..\include\Common\AsyncQueue.h" />
+    <ClInclude Include="..\..\include\Common\AutoPtr.h" />
+    <ClInclude Include="..\..\include\Common\Config.h" />
+    <ClInclude Include="..\..\include\Common\LightInkVersion.h" />
+    <ClInclude Include="..\..\include\Common\RefCounter.h" />
+    <ClInclude Include="..\..\include\Common\RuntimeError.h" />
+    <ClInclude Include="..\..\include\Common\SharedPtr.h" />
+    <ClInclude Include="..\..\include\Common\SingletonBase.h" />
+    <ClInclude Include="..\..\include\Common\SmallObject.h" />
+    <ClInclude Include="..\..\include\Common\stdint_msvc2008.h" />
+    <ClInclude Include="..\..\include\Common\STLType.h" />
+    <ClInclude Include="..\..\include\Common\Type.h" />
+    <ClInclude Include="..\..\include\Common\TypeTool.h" />
+    <ClInclude Include="..\..\include\Common\UserMemory.h" />
+    <ClInclude Include="..\..\include\Common\WinSnprintf.h" />
+    <ClInclude Include="..\..\include\fmt\fmt.h" />
+    <ClInclude Include="..\..\include\fmt\format.h" />
+    <ClInclude Include="..\..\include\fmt\format.hpp" />
+    <ClInclude Include="..\..\include\fmt\ostream.h" />
+    <ClInclude Include="..\..\include\fmt\ostream.hpp" />
+    <ClInclude Include="..\..\include\Log\FixedLogger.h" />
+    <ClInclude Include="..\..\include\Log\Log.h" />
+    <ClInclude Include="..\..\include\Log\LogConfig.h" />
+    <ClInclude Include="..\..\include\Log\LogFlagFormat.h" />
+    <ClInclude Include="..\..\include\Log\LogFormat.h" />
+    <ClInclude Include="..\..\include\Log\Logger.h" />
+    <ClInclude Include="..\..\include\Log\LoggerMgr.h" />
+    <ClInclude Include="..\..\include\Log\LogItem.h" />
+    <ClInclude Include="..\..\include\Log\LogOption.h" />
+    <ClInclude Include="..\..\include\Log\LogThreadType.h" />
+    <ClInclude Include="..\..\include\Log\async\AsyncMsg.h" />
+    <ClInclude Include="..\..\include\Log\async\AsyncThread.h" />
+    <ClInclude Include="..\..\include\Log\channel\DateNameStrategy.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannel.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelAndroid.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelFile.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelList.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelMsvc.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelMT.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelNull.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelOstream.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelStd.h" />
+    <ClInclude Include="..\..\include\Log\channel\LogChannelStdColor.h" />
+    <ClInclude Include="..\..\include\Log\helper\FileHelper.h" />
+    <ClInclude Include="..\..\include\Log\helper\FormatHelper.h" />
+    <ClInclude Include="..\..\include\Log\helper\LogTraceHelper.h" />
+    <ClInclude Include="..\..\include\Log\helper\OsHelper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\include\Common\AutoPtr.cpp" />
+    <ClCompile Include="..\..\include\Common\SharedPtr.cpp" />
+    <ClCompile Include="..\..\src\Common\LightInkVersion.cpp" />
+    <ClCompile Include="..\..\src\Common\RuntimeError.cpp" />
+    <ClCompile Include="..\..\src\Common\SmallObject.cpp" />
+    <ClCompile Include="..\..\src\Common\WinSnprintf.c" />
+    <ClCompile Include="..\..\src\Log\LogFormat.cpp" />
+    <ClCompile Include="..\..\src\Log\Logger.cpp" />
+    <ClCompile Include="..\..\src\Log\LoggerMgr.cpp" />
+    <ClCompile Include="..\..\src\Log\LogOption.cpp" />
+    <ClCompile Include="..\..\src\Log\async\AsyncMsg.cpp" />
+    <ClCompile Include="..\..\src\Log\async\AsyncThread.cpp" />
+    <ClCompile Include="..\..\src\Log\channel\DateNameStrategy.cpp" />
+    <ClCompile Include="..\..\src\Log\channel\LogChannelAndroid.cpp" />
+    <ClCompile Include="..\..\src\Log\channel\LogChannelStdColor.cpp" />
+    <ClCompile Include="..\..\src\Log\helper\FileHelper.cpp" />
+    <ClCompile Include="..\..\src\Log\helper\FormatHelper.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
