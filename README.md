@@ -1,6 +1,6 @@
 # LightInkLog
 
-format log lib from project LightInk
+log system from prject LightInk 
 
 #build
 
