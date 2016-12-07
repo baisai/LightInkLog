@@ -29,7 +29,7 @@ target_link_libraries(${PROJECT_NAME} LightInkLog )
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../../bin/Debug)
-elseif()
+else()
 set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../../bin/Release)
 endif()
 
