@@ -10,7 +10,7 @@ log system from prject LightInk
 * install vs2012
 * open file ./windows/LightInkLua.sln
 * build
-* the file output in ./windows/Debug(Release)/
+* the file output in ./bin/Debug(Release)/
 
 ##linux
 
@@ -19,7 +19,7 @@ log system from prject LightInk
 * cd ./Linux/build
 * cmake ../
 * make
-* the file output in ./Linux/bin/
+* the file output in ./bin/Debug(Release)/
 
 # Use
 

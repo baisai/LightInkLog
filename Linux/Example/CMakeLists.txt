@@ -27,7 +27,12 @@ add_dependencies(${PROJECT_NAME} LightInkLog)
 
 target_link_libraries(${PROJECT_NAME} LightInkLog )
 
-set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../bin)
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../../bin/Debug)
+elseif()
+set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../../bin/Release)
+endif()
+
 
 unset(sourceFile)
 unset(fullSourcePath)
