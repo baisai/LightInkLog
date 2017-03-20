@@ -2,17 +2,17 @@
 
 log system from prject LightInk 
 
-#build
+# build
 
 
-##win32
+## win32
 
 * install vs2012
 * open file ./windows/LightInkLua.sln
 * build
 * the file output in ./bin/Debug(Release)/
 
-##linux
+## linux
 
 * install cmake
 * mkdir ./Linux/build
