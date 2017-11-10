@@ -65,8 +65,21 @@ namespace LightInk
 	}
 	RuntimeError LoggerMgr::channel(Logger * logger, LogItem & item)
 	{ 
-		if (m_thread) { return m_thread->async_channel(logger->m_channel, logger->m_format, item); }
-		return logger->do_channel(item);
+		RuntimeError err = RE_Success;
+		if (m_thread)
+		{
+			err = m_thread->async_channel(logger->m_channel, logger->m_format, item);
+		}
+		else
+		{
+			err = logger->do_channel(item);
+		}
+		if (err != RE_Success) { return err; }
+		if (logger->should_flush(item.m_level))
+		{
+			err = flush(logger);
+		}
+		return err;
 	}
 
 	RuntimeError LoggerMgr::register_logger(LoggerPtr log)

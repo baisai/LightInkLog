@@ -33,26 +33,40 @@ namespace LightInk
 	class LIGHTINK_TEMPLATE_DECL LogChannelOstream : public LogChannelMT<M>
 	{
 	public:
-		LogChannelOstream(std::ostream & os) : m_ostream(os) {  }
-		virtual ~LogChannelOstream() { flush(); }
+		LogChannelOstream(std::ostream & os);
+		virtual ~LogChannelOstream();
 
 	protected:
-		virtual inline RuntimeError do_log(const LogItem & item)
-		{
-			m_ostream.write(item.m_format.data(), item.m_format.size());
-			return RE_Success;
-		}
-		virtual inline RuntimeError do_flush()
-		{
-			m_ostream.flush();
-			return RE_Success;
-		}
+		virtual RuntimeError do_log(const LogItem & item);
+		virtual RuntimeError do_flush();
 
 	protected:
 		std::ostream & m_ostream;
 
 	LIGHTINK_DISABLE_COPY(LogChannelOstream)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	LogChannelOstream<M>::LogChannelOstream(std::ostream & os) : m_ostream(os) {  }
+
+	template <typename M>
+	LogChannelOstream<M>::~LogChannelOstream() { flush(); }
+
+	template <typename M>
+	RuntimeError LogChannelOstream<M>::do_log(const LogItem & item)
+	{
+		m_ostream.write(item.m_format.data(), item.m_format.size());
+		return RE_Success;
+	}
+
+	template <typename M>
+	RuntimeError LogChannelOstream<M>::do_flush()
+	{
+		m_ostream.flush();
+		return RE_Success;
+	}
 }
 
 #endif

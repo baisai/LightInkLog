@@ -26,7 +26,7 @@
 #ifdef LIGHTINK_LOG_MULTITHREAD
 namespace LightInk
 {
-	AsyncThread::AsyncThread(AsyncMsg::AsyncOverflow aof, uint32 size) : m_queue(size), m_release(false), m_overflow(aof)
+	AsyncThread::AsyncThread(AsyncMsg::AsyncOverflow aof, uint32 size) : m_queue(size), m_release(false), m_overflow(aof), m_closing(false)
 	{
 
 	}
@@ -66,6 +66,7 @@ namespace LightInk
 				LogSleepMillis(sleep_millis);
 			}
 		}
+		m_closing = false;
 	}
 	RuntimeError AsyncThread::async_flush(const ChannelListPtr & channel)
 	{
@@ -81,7 +82,12 @@ namespace LightInk
 	}
 	void AsyncThread::release()
 	{
+		m_closing = true;
 		m_release = true;
+		while (m_closing)
+		{
+			LogSleepMillis(10);
+		}
 	}
 
 

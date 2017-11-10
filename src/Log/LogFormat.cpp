@@ -56,6 +56,12 @@ namespace LightInk
 		case 'L':
 			m_format.push_back(LogFlagFormatPtr(new LogFlagFormat_FullLevel()));
 			break;
+		case 'w':
+			m_format.push_back(LogFlagFormatPtr(new LogFlagFormat_Line()));
+			break;
+		case 'W':
+			m_format.push_back(LogFlagFormatPtr(new LogFlagFormat_File()));
+			break;
 		case 't':
 			m_format.push_back(LogFlagFormatPtr(new LogFlagFormat_ThreadID()));
 			break;

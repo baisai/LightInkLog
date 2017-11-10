@@ -35,15 +35,14 @@ namespace LightInk
 		virtual ~LogChannelNull() {  }
 
 	protected:
-		virtual inline RuntimeError do_log(const LogItem & item)
+		virtual RuntimeError do_log(const LogItem & item)
 		{
 			return RE_Success;
 		}
-		virtual inline RuntimeError do_flush()
+		virtual RuntimeError do_flush()
 		{
 			return RE_Success;
 		}
-
 
 	LIGHTINK_DISABLE_COPY(LogChannelNull)
 	};

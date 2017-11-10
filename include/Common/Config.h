@@ -30,7 +30,7 @@
 #endif // DEBUG
 
 
-//#define LightInkNoTrace //关闭trace日志
+#define LightInkNoTrace //关闭trace日志
 
 #ifndef LIGHTINK_DEBUG
 #define LightInkNoDebug //关闭debug日志
@@ -53,6 +53,15 @@
 #ifdef _MSC_VER
 #pragma warning(disable:4251)
 #endif
+
+
+#if defined(__x86_64__) || defined(__x86_64) || defined(_M_X64) || defined(_M_AMD64) || defined(__aarch64__) || defined(__ppc64__)
+#define LIGHTINK_X64
+#endif
+
+//#ifndef LIGHTINK_LUAJIT
+//#define LIGHTINK_LUAJIT
+//#endif
 
 
 /////////////////////////////////////////////////////////

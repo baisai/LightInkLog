@@ -51,6 +51,7 @@ namespace LightInk
 		AsyncQueue<AsyncMsg> m_queue;
 		bool m_release;
 		const AsyncMsg::AsyncOverflow m_overflow;
+		bool m_closing;
 
 	LIGHTINK_DISABLE_COPY(AsyncThread)
 	};
@@ -60,18 +61,31 @@ namespace LightInk
 	public:
 		AsyncThread(AsyncMsg::AsyncOverflow aof, uint32 size) {  }
 		~AsyncThread() {  }
-		void work() {  }
-		int32 run() { return 0; }
-		inline RuntimeError async_flush(const ChannelListPtr & channel) { return channel->flush(); }
-		inline RuntimeError async_channel(const ChannelListPtr & channel, const LogFormatPtr & format, LogItem & item)
-		{ 
-			format->format(item);
-			return channel->log(item);
-		}
-		void release() {  }
+		void work();
+		int32 run();
+		RuntimeError async_flush(const ChannelListPtr & channel);
+		RuntimeError async_channel(const ChannelListPtr & channel, const LogFormatPtr & format, LogItem & item);
+		void release();
 
 	LIGHTINK_DISABLE_COPY(AsyncThread)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	inline void AsyncThread::work() {  }
+
+	inline int32 AsyncThread::run() { return 0; }
+
+	inline RuntimeError AsyncThread::async_flush(const ChannelListPtr & channel) 
+	{ return channel->flush(); }
+
+	inline RuntimeError AsyncThread::async_channel(const ChannelListPtr & channel, const LogFormatPtr & format, LogItem & item)
+	{ 
+		format->format(item);
+		return channel->log(item);
+	}
+
+	inline void AsyncThread::release() {  }
 #endif
 }
 

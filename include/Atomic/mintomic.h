@@ -110,7 +110,7 @@ extern "C" {
 		struct timespec ts;
 		ts.tv_sec = millis / 1000;
 		ts.tv_nsec = (millis % 1000) * 1000 * 1000;
-		nanosleep(&ts, NULL);
+		while (nanosleep(&ts, &ts) < 0) continue;
 	}
 
 	

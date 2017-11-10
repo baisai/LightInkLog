@@ -39,13 +39,13 @@ namespace LightInk
 
 
 	protected:
-		virtual inline RuntimeError do_log(const LogItem & item)
+		virtual RuntimeError do_log(const LogItem & item)
 		{
 			size_t count = fwrite(item.m_format.data(), sizeof(char), item.m_format.size(), stdout);
 			if (count == sizeof(char) * item.m_format.size()) { return RE_Success; }
 			return RE_Log_WriteChannelFailed;
 		}
-		virtual inline RuntimeError do_flush()
+		virtual RuntimeError do_flush()
 		{
 			if (fflush(stdout) == EOF) { return RE_Log_FlushChannelFailed; }
 			return RE_Success;

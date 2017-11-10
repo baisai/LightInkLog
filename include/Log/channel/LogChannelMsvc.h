@@ -36,14 +36,14 @@ namespace LightInk
 		virtual ~LogChannelMsvc() {  }
 
 	protected:
-		virtual inline RuntimeError do_log(const LogItem & item)
+		virtual RuntimeError do_log(const LogItem & item)
 		{
 #if defined(_MSC_VER)
 			OutputDebugStringA(item.m_format.c_str());
 #endif
 			return RE_Success;
 		}
-		virtual inline RuntimeError do_flush()
+		virtual RuntimeError do_flush()
 		{
 			return RE_Success;
 		}

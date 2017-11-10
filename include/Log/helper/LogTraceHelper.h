@@ -25,22 +25,26 @@
 #define LIGHTINK_LOG_LOGTRACEHELPER_H_
 
 #include "Common/Type.h"
-#include "Log/LoggerMgr.h"
+#include "Log/Logger.h"
 
 namespace LightInk
 {
-	class LogTraceHelper : public SmallObject
+	class LIGHTINK_DECL LogTraceHelper : public SmallObject
 	{
 	public:
 		LogTraceHelper(const char * file, uint32 line, fmt::MemoryWriter * str) : m_file(file), m_line(line), m_str(str) 
 		{ LightInkLogCpp->trace_fl(LogFileLine(file, line), "[In]:{}", fmt::StringRef(str->data(), str->size())); }
-		inline void set_line(uint32 line) {m_line = line;}
+		void set_line(uint32 line);
 		~LogTraceHelper() { LightInkLogCpp->trace_fl(LogFileLine(m_file, m_line), "[Out]:{}", fmt::StringRef(m_str->data(), m_str->size()));  }
 	protected:
 		const char * m_file;
 		uint32 m_line;
 		fmt::MemoryWriter * m_str;
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	inline void LogTraceHelper::set_line(uint32 line) {m_line = line;}
 
 }
 

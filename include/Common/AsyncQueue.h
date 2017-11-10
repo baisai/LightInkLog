@@ -25,6 +25,7 @@
 #define LIGHTINK_COMMON_ASYNCQUEUE_H_
 
 #include "Atomic/Atomic.h"
+#include "Common/SmallObject.h"
 
 namespace LightInk
 {
@@ -32,74 +33,101 @@ namespace LightInk
 	class AsyncQueue : SmallObject
 	{
 	public:
-		AsyncQueue(uint32 size) : m_size(size), m_queue(NULL)
-		{
-			m_queue = (T **)malloc_user(size * sizeof(T *));
-			for (uint32 i = 0; i < size; i++)
-			{
-				m_queue[i] = NULL;
-			}
-			m_readIdx.store(0);
-			m_writeIdx.store(0);
-		}
+		AsyncQueue(uint32 size);
+		~AsyncQueue();
 
-		~AsyncQueue() { free_user(m_queue, m_size * sizeof(T *)); m_queue = NULL; }
+		bool empty();
+		bool full();
 
-		bool push(T * t)
-		{
-			while (true)
-			{
-				uint32 writeIdx = m_writeIdx.load();
-				uint32 nextWriteIdx = writeIdx + 1;
-				if (real_index(nextWriteIdx) == real_index(m_readIdx.load()))
-				{
-					return false;
-				}
-				if (m_writeIdx.compare_exchange(writeIdx, nextWriteIdx) != writeIdx)
-				{
-					continue;
-				}
-				if (nextWriteIdx >= m_size)
-				{
-					m_writeIdx.compare_exchange(nextWriteIdx, nextWriteIdx % m_size);
-				}
-				m_queue[real_index(writeIdx)] = t;
-				return true;
-			}
-
-		}
-		T * pop()
-		{
-			while (true)
-			{
-				uint32 readIdx = m_readIdx.load();
-				uint32 nextReadIdx = readIdx + 1;
-				if (real_index(m_writeIdx.load()) == real_index(readIdx))
-				{
-					return NULL;
-				}
-				if (m_readIdx.compare_exchange(readIdx, nextReadIdx) != readIdx)
-				{
-					continue;
-				}
-				if (nextReadIdx >= m_size)
-				{
-					m_readIdx.compare_exchange(nextReadIdx, nextReadIdx % m_size);
-				}
-				return m_queue[real_index(readIdx)];
-			}
-		}
+		bool push(T * t);
+		T * pop();
 
 	private:
-		inline uint32 real_index(uint32 idx) { return (idx % m_size); }
+		uint32 real_index(uint32 idx);
 
 	private:
-		T ** m_queue;
+		Atomic<T *> * m_queue;
 		const uint32 m_size;
 		Atomic<uint32> m_readIdx;
 		Atomic<uint32> m_writeIdx;
 	LIGHTINK_DISABLE_COPY(AsyncQueue)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename T>
+	AsyncQueue<T>::AsyncQueue(uint32 size) : m_size(size), m_queue(NULL)
+	{
+		m_queue = (Atomic<T *> *)malloc_user(size * sizeof(Atomic<T *>));
+		for (uint32 i = 0; i < size; i++)
+		{
+			m_queue[i].store(NULL);
+		}
+		m_readIdx.store(0);
+		m_writeIdx.store(0);
+	}
+
+	template <typename T>
+	AsyncQueue<T>::~AsyncQueue() 
+	{ free_user(m_queue, m_size * sizeof(Atomic<T *>)); m_queue = NULL; }
+
+	template <typename T>
+	inline bool AsyncQueue<T>::empty()
+	{
+		return (m_writeIdx.load() == m_readIdx.load());
+	}
+
+	template <typename T>
+	inline bool AsyncQueue<T>::full()
+	{
+		return (real_index(m_writeIdx.load() + 1) == m_readIdx.load());
+	}
+
+	template <typename T>
+	bool AsyncQueue<T>::push(T * t)
+	{
+		while (true)
+		{
+			uint32 writeIdx = m_writeIdx.load();
+			uint32 nextWriteIdx = real_index(writeIdx + 1);
+			if (nextWriteIdx == m_readIdx.load())
+			{
+				return false;
+			}
+			if (m_writeIdx.compare_exchange(writeIdx, nextWriteIdx) != writeIdx)
+			{
+				continue;
+			}
+			while (m_queue[writeIdx].compare_exchange(NULL, t) != NULL) {  }
+			return true;
+		}
+	}
+
+	template <typename T>
+	T * AsyncQueue<T>::pop()
+	{
+		while (true)
+		{
+			uint32 readIdx = m_readIdx.load();
+			if (m_writeIdx.load() == readIdx)
+			{
+				return NULL;
+			}
+			uint32 nextReadIdx = real_index(readIdx + 1);
+			if (m_readIdx.compare_exchange(readIdx, nextReadIdx) != readIdx)
+			{
+				continue;
+			}
+			while (m_queue[readIdx].load() == NULL) {  }
+			T * t = m_queue[readIdx].load();
+			m_queue[readIdx].store(NULL);
+			return t;
+		}
+	}
+
+	template <typename T>
+	inline uint32 AsyncQueue<T>::real_index(uint32 idx) 
+	{ return (idx % m_size); }
 }
 
 

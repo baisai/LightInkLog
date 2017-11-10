@@ -37,25 +37,21 @@ namespace LightInk
 	{
 	public:
 		template <int32 Idx>
-		inline bool init_fixed_logger(const LogOption & op) 
-		{ 
-			bool r = FixedLogger<Idx>::init(op); 
-			if (r) 
-			{ 
-				Guard<LogLockAuto> l(m_lock);
-				m_fixedLogger.insert(std::pair<int32, LogAutoPtr<SingletonBase>::type>(Idx, 
-				LogAutoPtr<SingletonBase>::type(new FixedLogger<Idx>)));
-			}
-			return r;
-		}
+		bool init_fixed_logger(const LogOption & op);
+
 		template <int32 Idx>
-		inline Logger * get_fixed_logger() { return FixedLogger<Idx>::instance(); }
+		Logger * get_fixed_logger();
 
-		static LoggerMgr * get_instance() { static LoggerMgr s_lm; return &s_lm; }
+		static LoggerMgr * get_instance();
 
-		static bool init_global_logger(const LogOption & op) { return get_instance()->init_fixed_logger<1>(op); }
-		static Logger * get_global_logger() { return get_instance()->get_fixed_logger<1>(); }
+		static bool init_global_logger(const LogOption & op);
+		static Logger * get_global_logger();
 
+	private:
+		template <int32 Idx>
+		FixedLogger<Idx> * get_raw_fixed_logger();
+
+	public:
 		LoggerMgr() : m_thread(NULL) {  }
 		~LoggerMgr();
 
@@ -85,9 +81,43 @@ namespace LightInk
 
 	LIGHTINK_DISABLE_COPY(LoggerMgr)
 	};
-	
-}
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <int32 Idx>
+	inline bool LoggerMgr::init_fixed_logger(const LogOption & op) 
+	{ 
+		return get_raw_fixed_logger<Idx>()->init(op);
+	}
+	template <int32 Idx>
+	inline Logger * LoggerMgr::get_fixed_logger() 
+	{
+		return get_raw_fixed_logger<Idx>()->get_logger(); 
+	}
 
+	inline LoggerMgr * LoggerMgr::get_instance() { static LoggerMgr s_lm; return &s_lm; }
+
+	inline bool LoggerMgr::init_global_logger(const LogOption & op) { return get_instance()->init_fixed_logger<1>(op); }
+	inline Logger * LoggerMgr::get_global_logger() { return get_instance()->get_fixed_logger<1>(); }
+
+	template <int32 Idx>
+	inline FixedLogger<Idx> * LoggerMgr::get_raw_fixed_logger() 
+	{
+		static FixedLogger<Idx> * s_fixedLogger = NULL;
+		if (!s_fixedLogger)
+		{
+			Guard<LogLockAuto> l(m_lock);
+			if (!s_fixedLogger)
+			{
+				s_fixedLogger = new FixedLogger<Idx>;
+				s_fixedLogger->set_backup(&s_fixedLogger);
+				m_fixedLogger.insert(std::pair<int32, LogAutoPtr<SingletonBase>::type>(Idx, 
+					LogAutoPtr<SingletonBase>::type(s_fixedLogger)));
+			}
+		}
+		return s_fixedLogger; 
+	}
+}
 
 #define LightInkLog LightInk::LoggerMgr::get_instance()
 #define LightInkLogCppInit(op) LightInk::LoggerMgr::init_global_logger(op)

@@ -34,50 +34,71 @@ namespace LightInk
 	public:
 		typedef SelectSharedPtr(M, LogChannel) LogChannelPtr;
 		typedef typename vector<LogChannelPtr>::type::iterator ListIterator;
-		LogChannelList() {  }
-		virtual ~LogChannelList() { m_list.clear(); }
 
-		void add_channel(LogChannelPtr channel)
-		{
-			Guard<M> l(this->m_lock);
-			m_list.push_back(channel);
-		}
-		void remove_channel(LogChannelPtr channel)
-		{
-			Guard<M> l(this->m_lock);
-			 m_list.erase(std::remove(m_list.begin(), m_list.end(), channel), m_list.end());
-		}
+		LogChannelList();
+		virtual ~LogChannelList();
+
+		void add_channel(LogChannelPtr channel);
+		void remove_channel(LogChannelPtr channel);
 
 	protected:
-		virtual RuntimeError do_log(const LogItem & item)
-		{
-			RuntimeError err = RE_Success;
-			for (ListIterator iter = m_list.begin(); iter != m_list.end(); ++iter)
-			{
-				if (this->should_log(item.m_level))
-				{
-					if (err == RE_Success) err = (*iter)->log(item);
-					else (*iter)->log(item);
-				}
-			}
-			return err;
-		}
-		virtual RuntimeError do_flush()
-		{
-			RuntimeError err = RE_Success;
-			for (ListIterator iter = m_list.begin(); iter != m_list.end(); ++iter)
-			{
-				if (err == RE_Success) err = (*iter)->flush();
-				else (*iter)->flush();
-			}
-			return err;
-		}
+		virtual RuntimeError do_log(const LogItem & item);
+		virtual RuntimeError do_flush();
 
 	protected:
 		typename vector<LogChannelPtr>::type m_list;
 
 	LIGHTINK_DISABLE_COPY(LogChannelList<M>)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	LogChannelList<M>::LogChannelList() {  }
+
+	template <typename M>
+	LogChannelList<M>::~LogChannelList() { m_list.clear(); }
+
+	template <typename M>
+	void LogChannelList<M>::add_channel(LogChannelPtr channel)
+	{
+		Guard<M> l(this->m_lock);
+		m_list.push_back(channel);
+	}
+
+	template <typename M>
+	void LogChannelList<M>::remove_channel(LogChannelPtr channel)
+	{
+		Guard<M> l(this->m_lock);
+		m_list.erase(std::remove(m_list.begin(), m_list.end(), channel), m_list.end());
+	}
+
+	template <typename M>
+	RuntimeError LogChannelList<M>::do_log(const LogItem & item)
+	{
+		RuntimeError err = RE_Success;
+		for (ListIterator iter = m_list.begin(); iter != m_list.end(); ++iter)
+		{
+			if (this->should_log(item.m_level))
+			{
+				if (err == RE_Success) err = (*iter)->log(item);
+				else (*iter)->log(item);
+			}
+		}
+		return err;
+	}
+
+	template <typename M>
+	RuntimeError LogChannelList<M>::do_flush()
+	{
+		RuntimeError err = RE_Success;
+		for (ListIterator iter = m_list.begin(); iter != m_list.end(); ++iter)
+		{
+			if (err == RE_Success) err = (*iter)->flush();
+			else (*iter)->flush();
+		}
+		return err;
+	}
 
 	typedef LogChannelList<LogLockAuto> ChannelList;
 	typedef LogSharedPtrAuto<ChannelList>::type ChannelListPtr;

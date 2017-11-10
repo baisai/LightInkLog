@@ -33,17 +33,34 @@ namespace LightInk
 	class LIGHTINK_TEMPLATE_DECL LogChannelMT : public LogChannel
 	{
 	public:
-		LogChannelMT() {  }
-		virtual ~LogChannelMT() {  }
+		LogChannelMT();
+		virtual ~LogChannelMT();
 
-		virtual inline RuntimeError log(const LogItem & item) { Guard<M> l(m_lock);return do_log(item); }
-		virtual inline RuntimeError flush() { Guard<M> l(m_lock);return do_flush(); }
+		virtual RuntimeError log(const LogItem & item);
+		virtual RuntimeError flush();
 
 	protected:
 		M m_lock;
 
 	LIGHTINK_DISABLE_COPY(LogChannelMT)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	LogChannelMT<M>::LogChannelMT() {  }
+
+	template <typename M>
+	LogChannelMT<M>::~LogChannelMT() {  }
+
+	template <typename M>
+	RuntimeError LogChannelMT<M>::log(const LogItem & item) 
+	{ Guard<M> l(m_lock);return do_log(item); }
+
+	template <typename M>
+	RuntimeError LogChannelMT<M>::flush() 
+	{ Guard<M> l(m_lock);return do_flush(); }
+
 }
 
 #endif

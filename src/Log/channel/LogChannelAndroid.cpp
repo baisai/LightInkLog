@@ -25,7 +25,6 @@
 
 #include "Log/channel/LogChannelAndroid.h"
 
-
 namespace LightInk
 {
 
@@ -41,6 +40,11 @@ namespace LightInk
 			}
 		}
 		return err;
+	}
+
+	RuntimeError LogChannelAndroid::do_flush()
+	{
+		return RE_Success;
 	}
 
 	android_LogPriority LogChannelAndroid::convert_to_android(LogLevel::LEVEL level)
@@ -65,7 +69,6 @@ namespace LightInk
 	}
 
 }
-
 
 
 #endif

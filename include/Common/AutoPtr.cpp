@@ -129,25 +129,25 @@ namespace LightInk
 
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator == (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, T * right)
+	bool operator == (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, const T * right)
 	{
 		return left.get() == right;
 	}
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator == (T * left, const AutoPtrWrapper<T, DelStrategy, Allocator> & right)
+	bool operator == (const T * left, const AutoPtrWrapper<T, DelStrategy, Allocator> & right)
 	{
 		return left == right.get();
 	}
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator != (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, T * right)
+	bool operator != (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, const T * right)
 	{
 		return left.get() != right;
 	}
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator != (T * left,const AutoPtrWrapper<T, DelStrategy, Allocator> & right)
+	bool operator != (const T * left,const AutoPtrWrapper<T, DelStrategy, Allocator> & right)
 	{
 		return left != right.get();
 	}
@@ -159,6 +159,12 @@ namespace LightInk
 	inline void PtrDelStrategy::release(T * ptr)
 	{
 		if (ptr) { delete ptr; }
+	}
+
+	template <typename T>
+	inline void PtrDelStrategyUser::release(T * ptr)
+	{
+		if (ptr) { ptr->destroy(); }
 	}
 
 	template <typename T>

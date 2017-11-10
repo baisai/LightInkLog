@@ -36,13 +36,13 @@ namespace LightInk
 		LogChannel() : m_level(~0u) {  }
 		virtual ~LogChannel() {  }
 
-		virtual inline RuntimeError log(const LogItem & item) { return do_log(item); }
-		virtual inline RuntimeError flush() { return do_flush(); }
+		virtual RuntimeError log(const LogItem & item) { return do_log(item); }
+		virtual RuntimeError flush() { return do_flush(); }
 
-		inline bool should_log(LogLevel::LEVEL level) { return (level & m_level) != 0;}
-		inline void add_level(LogLevel::LEVEL level) { m_level |= level; }
-		inline void remove_level(LogLevel::LEVEL level) { m_level &= (~level); }
-		inline void reset_level(uint32 level) { m_level = level; }
+		bool should_log(LogLevel::LEVEL level);
+		void add_level(LogLevel::LEVEL level);
+		void remove_level(LogLevel::LEVEL level);
+		void reset_level(uint32 level);
 
 	protected:
 		virtual RuntimeError do_log(const LogItem & item) = 0;
@@ -53,6 +53,14 @@ namespace LightInk
 
 	LIGHTINK_DISABLE_COPY(LogChannel)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	inline bool LogChannel::should_log(LogLevel::LEVEL level) { return (level & m_level) != 0;}
+	inline void LogChannel::add_level(LogLevel::LEVEL level) { m_level |= level; }
+	inline void LogChannel::remove_level(LogLevel::LEVEL level) { m_level &= (~level); }
+	inline void LogChannel::reset_level(uint32 level) { m_level = level; }
+
 }
 
 #endif

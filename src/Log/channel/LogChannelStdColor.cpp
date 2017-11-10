@@ -118,6 +118,12 @@ namespace LightInk
 		return m_channel->log(i);
 	}
 #endif
+
+	RuntimeError LogChannelStdOutColor::do_flush()
+	{
+		return m_channel->flush();
+	}
+
 #ifdef _WIN32
 	uint16 LogChannelStdOutColor::s_Code[] = {
 		0, 0, 0,

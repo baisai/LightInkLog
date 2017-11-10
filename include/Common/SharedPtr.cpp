@@ -35,7 +35,7 @@ namespace LightInk
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
 	SharedPtrWrapper<T, Counter, DelStrategy, Allocator>::SharedPtrWrapper() : m_objPtr(NULL), m_refControl(NULL)
 	{
-		set_ptr(NULL);
+		
 	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
@@ -237,15 +237,17 @@ namespace LightInk
 			return;
 		}
 		m_refControl->dec_shared();
+		T * ptr = NULL;
 		if (m_refControl->get_shared_refs() == 0)
 		{
-			DelStrategy::release(m_objPtr);
+			ptr = m_objPtr;
 		}
 		if (!m_refControl->has_refs())
 		{
 			delete m_refControl;
 		}
 		reset_no_delete();
+		DelStrategy::release(ptr);
 	}
 
 
@@ -275,25 +277,25 @@ namespace LightInk
 	//Ptr operator
 	////////////////////////////////////////////////////////////////////////
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	inline bool operator == (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, T * right)
+	inline bool operator == (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, const T * right)
 	{
 		return left.get() == right;
 	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	inline bool operator == (T * left, const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right)
+	inline bool operator == (const T * left, const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right)
 	{
 		return left == right.get();
 	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	inline bool operator != (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, T * right)
+	inline bool operator != (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, const T * right)
 	{
 		return left.get() != right;
 	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	inline bool operator != (T * left,const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right)
+	inline bool operator != (const T * left,const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right)
 	{
 		return left == right.get();
 	}
@@ -305,7 +307,14 @@ namespace LightInk
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
 	WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::WeakPtrWrapper() : m_objPtr(NULL), m_refControl(NULL)
 	{
+		
+	}
 
+	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
+	template<typename __T>
+	WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::WeakPtrWrapper(__T * ptr)
+	{
+		set_ptr(ptr);
 	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
@@ -377,6 +386,16 @@ namespace LightInk
 	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
+	template <typename __T, typename __Counter, typename __DelStrategy, typename __Allocator>
+	inline void WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::reset(const SharedPtrWrapper<__T, __Counter, __DelStrategy, __Allocator> & spw)
+	{
+		check_delete_ptr();
+		m_objPtr = spw.m_objPtr;
+		m_refControl = spw.m_refControl;
+		m_refControl->inc_weak();
+	}
+
+	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
 	inline void WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::swap(WeakPtrWrapper<T, Counter, DelStrategy, Allocator> & right)
 	{
 		if (this == &right) { return; }
@@ -408,6 +427,11 @@ namespace LightInk
 		return m_refControl->get_shared_refs() == 0;
 	}
 
+	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
+	inline WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::operator bool() const
+	{
+		return !expired();
+	}
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
 	inline SharedPtrWrapper<T, Counter, DelStrategy, Allocator> WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::lock() const
@@ -436,6 +460,13 @@ namespace LightInk
 	{
 		m_objPtr = NULL;
 		m_refControl = NULL;
+	}
+
+	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
+	inline void WeakPtrWrapper<T, Counter, DelStrategy, Allocator>::set_ptr(T * ptr)
+	{
+		m_refControl = new Counter();
+		m_objPtr = ptr;
 	}
 
 

@@ -26,11 +26,12 @@
 #define LIGHTINK_LOG_LOGITEM_H_
 
 #include <string>
+#include <time.h>
+#include "Common/SmallObject.h"
 #include "fmt/fmt.h"
 #include "Log/LogThreadType.h"
-#include "Log/helper/OsHelper.h"
+#include "Common/OsHelper.h"
 #include "Log/helper/FormatHelper.h"
-#include "Common/SmallObject.h"
 
 namespace LightInk
 {

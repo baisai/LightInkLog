@@ -67,18 +67,18 @@ namespace LightInk
 	LIGHTINK_DISABLE_COPY(Atomic)
 	};
 
-	template <>
-	class LIGHTINK_TEMPLATE_DECL Atomic<void *>
+	template <typename T>
+	class LIGHTINK_TEMPLATE_DECL Atomic<T *>
 	{
 	public:
 		Atomic() { store(NULL); }
-		inline void * load() { return mint_load_ptr_relaxed(&m_handle); }
-		inline void store(void * desired) { mint_store_ptr_relaxed(&m_handle, desired); }
-		inline void * exchange(void * desired) { return mint_exchange_ptr_relaxed(&m_handle, desired); }
-		inline void * compare_exchange(void * expected, void * desired) { return mint_compare_exchange_strong_ptr_relaxed(&m_handle, expected, desired); }
-		inline void * fetch_add(ptrdiff_t operand) { return mint_fetch_add_ptr_relaxed(&m_handle, operand); }
-		inline void * fetch_or(size_t operand) { return mint_fetch_or_ptr_relaxed(&m_handle, operand); }
-		inline void * fetch_and(size_t operand) { return mint_fetch_and_ptr_relaxed(&m_handle, operand); }
+		inline T * load() { return (T *)mint_load_ptr_relaxed(&m_handle); }
+		inline void store(T * desired) { mint_store_ptr_relaxed(&m_handle, desired); }
+		inline T * exchange(T * desired) { return (T *)mint_exchange_ptr_relaxed(&m_handle, desired); }
+		inline T * compare_exchange(void * expected, void * desired) { return (T *)mint_compare_exchange_strong_ptr_relaxed(&m_handle, expected, desired); }
+		inline T * fetch_add(ptrdiff_t operand) { return (T *)mint_fetch_add_ptr_relaxed(&m_handle, operand); }
+		inline T * fetch_or(size_t operand) { return (T *)mint_fetch_or_ptr_relaxed(&m_handle, operand); }
+		inline T * fetch_and(size_t operand) { return (T *)mint_fetch_and_ptr_relaxed(&m_handle, operand); }
 	private:
 		mint_atomicPtr_t m_handle;
 	LIGHTINK_DISABLE_COPY(Atomic)

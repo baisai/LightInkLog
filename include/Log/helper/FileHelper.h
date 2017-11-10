@@ -25,7 +25,7 @@
 #define LIGHTINK_LOG_FILEHELPER_H_
 
 #include "Common/RuntimeError.h"
-#include "Log/helper/OsHelper.h"
+#include "Common/OsHelper.h"
 #include "Log/LogItem.h"
 
 namespace LightInk

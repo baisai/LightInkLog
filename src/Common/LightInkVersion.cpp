@@ -61,11 +61,20 @@ namespace LightInk
 		return (LIGHTINK_AUTHORS);
 	}
 
+	struct LightInkVersion
+	{
+		LightInkVersion()
+		{
+			snprintf(dependLib, sizeof(dependLib), "\nmintomic version(201509)\nfmt version(%s)\n", FMT_VERSION);
+		}
+		static char dependLib[288];
+	};
+	char LightInkVersion::dependLib[288] = { 0 };
+
+	LightInkVersion liv;
+	
 	const char * get_depend_lib_version()
 	{
-		static char dependLib[256] = { 0 };
-		snprintf(dependLib, 256, "\nmintomic\nfmt version(%s)\n", 
-									FMT_VERSION);
-		return dependLib;
+		return LightInkVersion::dependLib;
 	}
 }

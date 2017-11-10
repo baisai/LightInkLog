@@ -126,4 +126,93 @@
 
 #endif
 
+
+
+////////////////////////
+//ScriptDebug
+///////////////////////
+#ifdef LightInkNoScriptDebug
+#define LogScriptDebug(ft, ...)
+#else
+#define LogScriptDebug(ft, ...) \
+	do  \
+	{ \
+		LightInkLogLua->debug_fl(LightInkLogFileLine, ft, ##__VA_ARGS__); \
+	} while (0)
+#endif
+
+
+
+////////////////////////
+//ScriptMessage
+///////////////////////
+#ifdef LightInkNoScriptMessage
+#define LogScriptMessage(ft, ...)
+#else
+#define LogScriptMessage(ft, ...) \
+	do  \
+	{ \
+		LightInkLogLua->message_fl(LightInkLogFileLine, ft, ##__VA_ARGS__); \
+	} while (0)
+#endif
+
+////////////////////////
+//ScriptWarning
+///////////////////////
+#ifdef LightInkNoScriptWarning
+#define LogScriptWarning(ft, ...)
+#else
+#define LogScriptWarning(ft, ...) \
+	do  \
+	{ \
+		LightInkLogLua->warning_fl(LightInkLogFileLine, ft, ##__VA_ARGS__); \
+	} while (0)
+#endif
+
+
+////////////////////////
+//ScriptError
+///////////////////////
+#ifdef LightInkNoScriptError
+#define LogScriptError(ft, ...)
+#else
+#define LogScriptError(ft, ...) \
+	do  \
+	{ \
+		LightInkLogLua->error_fl(LightInkLogFileLine, ft, ##__VA_ARGS__); \
+	} while (0)
+#endif
+
+
+////////////////////////
+//Fatal
+///////////////////////
+#ifdef LightInkNoScriptFatal
+#define LogScriptFatal(ft, ...)
+#else
+#define LogScriptFatal(ft, ...) \
+	do  \
+	{ \
+		LightInkLogLua->fatal_fl(LightInkLogFileLine, ft, ##__VA_ARGS__); \
+	} while (0)
+
+#endif
+
+
+/////////////////////////
+//ScriptError and Jump
+////////////////////////
+#ifdef LightInkNoScriptErrorJump
+#define LogScriptErrorJump(L, ft, ...) LogScriptError(ft, ##__VA_ARGS__)
+#else
+#define LogScriptErrorJump(L, ft, ...)  \
+		do \
+		{ \
+			fmt::MemoryWriter ___mess; \
+			___mess.write(ft, ##__VA_ARGS__); \
+			luaL_error(L, ___mess.c_str()); \
+		} while (0)
+
+#endif
+
 #endif

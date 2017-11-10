@@ -118,16 +118,16 @@ namespace LightInk
 
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	bool operator == (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, T * right);
+	bool operator == (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, const T * right);
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	bool operator == (T * left, const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right);
+	bool operator == (const T * left, const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right);
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	bool operator != (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, T * right);
+	bool operator != (const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & left, const T * right);
 
 	template <typename T, typename Counter, typename DelStrategy, typename Allocator>
-	bool operator != (T * left,const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right);
+	bool operator != (const T * left,const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & right);
 
 
 
@@ -138,6 +138,10 @@ namespace LightInk
 	{
 	public:
 		WeakPtrWrapper();
+
+		template<typename __T>
+		explicit WeakPtrWrapper(__T * ptr);
+
 		explicit WeakPtrWrapper(const SharedPtrWrapper<T, Counter, DelStrategy, Allocator> & spw);
 		WeakPtrWrapper(const WeakPtrWrapper<T, Counter, DelStrategy, Allocator> & cp);
 		WeakPtrWrapper<T, Counter, DelStrategy, Allocator> & operator = (const WeakPtrWrapper<T, Counter, DelStrategy, Allocator> & right);
@@ -155,17 +159,23 @@ namespace LightInk
 
 		void reset();
 
+		template <typename __T, typename __Counter, typename __DelStrategy, typename __Allocator>
+		void reset(const SharedPtrWrapper<__T, __Counter, __DelStrategy, __Allocator> & spw);
+
 		void swap(WeakPtrWrapper<T, Counter, DelStrategy, Allocator> & right);
 
 		int64 use_count() const;
 
 		bool expired() const;
 
+		operator bool() const;
+
 		SharedPtrWrapper<T, Counter, DelStrategy, Allocator> lock() const;
 
 	private:
 		void check_delete_ptr();
 		void reset_no_delete();
+		void set_ptr(T * ptr);
 
 		friend class SharedPtrWrapper<T, Counter, DelStrategy, Allocator>;
 
@@ -181,6 +191,12 @@ namespace LightInk
 		typedef SharedPtrWrapper<T, RefCounter<SmallObject>, PtrDelStrategy, SmallObject> type;
 	};
 
+	template <typename T, typename TDelStrategy>
+	struct SharedPtrUser
+	{
+		typedef SharedPtrWrapper<T, RefCounter<SmallObject>, TDelStrategy, SmallObject> type;
+	};
+
 	template <typename T>
 	struct SharedArrayPtr
 	{
@@ -191,6 +207,12 @@ namespace LightInk
 	struct SharedPtrTS
 	{
 		typedef SharedPtrWrapper<T, RefCounterTS<SmallObject>, PtrDelStrategy, SmallObject> type;
+	};
+
+	template <typename T, typename TDelStrategy>
+	struct SharedPtrTSUser
+	{
+		typedef SharedPtrWrapper<T, RefCounterTS<SmallObject>, TDelStrategy, SmallObject> type;
 	};
 
 	template <typename T>
@@ -205,6 +227,12 @@ namespace LightInk
 		typedef WeakPtrWrapper<T, RefCounter<SmallObject>, PtrDelStrategy, SmallObject> type;
 	};
 
+	template <typename T, typename TDelStrategy>
+	struct WeakPtrUser
+	{
+		typedef WeakPtrWrapper<T, RefCounter<SmallObject>, TDelStrategy, SmallObject> type;
+	};
+
 	template <typename T>
 	struct WeakArrayPtr
 	{
@@ -216,6 +244,12 @@ namespace LightInk
 	struct WeakPtrTS
 	{
 		typedef WeakPtrWrapper<T, RefCounterTS<SmallObject>, PtrDelStrategy, SmallObject> type;
+	};
+
+	template <typename T, typename TDelStrategy>
+	struct WeakPtrTSUser
+	{
+		typedef WeakPtrWrapper<T, RefCounterTS<SmallObject>, TDelStrategy, SmallObject> type;
 	};
 
 	template <typename T>

@@ -33,43 +33,63 @@ namespace LightInk
 	class LIGHTINK_TEMPLATE_DECL FixedLogger : public SingletonBase, public SmallObject
 	{
 	private:
-		FixedLogger() {  }
-		static inline Logger * instance() { return m_logger; }
-		static inline bool init(const LogOption & op) 
-		{ 
-			Guard<LogLockAuto> l(m_lock);
-			if (m_logger) { return false; }
-			m_logger = new Logger(op);
-			m_loggerPtr.reset(m_logger);
-			return true;
-		}
+		FixedLogger();
+		~FixedLogger();
+		Logger * get_logger();
+		bool init(const LogOption & op);
 
-		void destroy() 
-		{ 
-			Guard<LogLockAuto> l(m_lock);
-			if (m_logger)
-			{ 
-				m_logger = NULL;
-				m_loggerPtr.reset();
-			}
-		}
+		void destroy();
+
+		void set_backup(FixedLogger<Idx> ** fl);
 		
 	private:
-		static Logger * m_logger;
-		static LogLockAuto m_lock;
-		static LoggerPtr m_loggerPtr;
+		Logger * m_logger;
+		LoggerPtr m_loggerPtr;
+
+		FixedLogger<Idx> ** m_backup;
 
 		friend class LoggerMgr;
 
 	LIGHTINK_DISABLE_COPY(FixedLogger)
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <int32 Idx>
+	FixedLogger<Idx>::FixedLogger() : m_logger(NULL), m_backup(NULL) {  }
 
-	template <int Idx>
-	Logger * FixedLogger<Idx>::m_logger = NULL;
-	template <int Idx>
-	LogLockAuto FixedLogger<Idx>::m_lock;
-	template <int Idx>
-	LoggerPtr FixedLogger<Idx>::m_loggerPtr;
+	template <int32 Idx>
+	FixedLogger<Idx>::~FixedLogger() {  }
+
+	template <int32 Idx>
+	inline Logger * FixedLogger<Idx>::get_logger() { return m_logger; }
+
+	template <int32 Idx>
+	inline bool FixedLogger<Idx>::init(const LogOption & op) 
+	{ 
+		if (m_logger) { return false; }
+		m_logger = new Logger(op);
+		m_loggerPtr.reset(m_logger);
+		return true;
+	}
+
+	template <int32 Idx>
+	inline void FixedLogger<Idx>::destroy() 
+	{ 
+		if (m_logger)
+		{ 
+			m_logger = NULL;
+			m_loggerPtr.reset();
+		}
+		if (m_backup)
+		{
+			*m_backup = NULL;
+			m_backup = NULL;
+		}
+	}
+
+	template <int32 Idx>
+	inline void FixedLogger<Idx>::set_backup(FixedLogger<Idx> ** fl) { m_backup = fl; }
 
 }
 

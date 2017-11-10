@@ -72,130 +72,208 @@ namespace LightInk
 	template <typename M, LogChannelType::TYPE ct>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption;
 
+
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::NullChannel> : public ChannelOptionBase
 	{
 	public:
-		ChannelList::LogChannelPtr get_channel() { if (!m_channel) { m_channel.reset(new LogChannelNull()); } return m_channel; }
+		ChannelList::LogChannelPtr get_channel();
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::NullChannel>::get_channel() 
+	{ if (!m_channel) { m_channel.reset(new LogChannelNull()); } return m_channel; }
+
+
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::FileChannel> : public ChannelOptionBase
 	{
 	public:
 		ChannelOption() : m_cover(false) {  }
-		ChannelList::LogChannelPtr get_channel() { if (!m_channel) { m_channel.reset(new LogChannelFile<M>(m_file, m_cover)); } return m_channel; }
+		ChannelList::LogChannelPtr get_channel();
 
-		void set_filename(const OsHelper::FileNameType & name) { if (m_channel) { m_channel.reset(); } m_file = name; }
-		void set_cover(bool cover) { if (m_channel) { m_channel.reset(); } m_cover = cover; }
+		void set_filename(const OsHelper::FileNameType & name);
+		void set_cover(bool cover);
 
 	protected:
 		OsHelper::FileNameType m_file;
 		bool m_cover;
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	inline ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::FileChannel>::get_channel() 
+	{ if (!m_channel) { m_channel.reset(new LogChannelFile<M>(m_file, m_cover)); } return m_channel; }
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::FileChannel>::set_filename(const OsHelper::FileNameType & name) 
+	{ if (m_channel) { m_channel.reset(); } m_file = name; }
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::FileChannel>::set_cover(bool cover)
+	{ if (m_channel) { m_channel.reset(); } m_cover = cover; }
+
+
+
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::BlockFileChannel> : public ChannelOptionBase
 	{
 	public:
 		ChannelOption() : m_maxSize(1024*1024), m_maxFiles(10) {  }
-		ChannelList::LogChannelPtr get_channel() { if (!m_channel) { m_channel.reset(new LogChannelBlockFile<M>(m_file, m_maxSize, m_maxFiles)); } return m_channel; }
+		ChannelList::LogChannelPtr get_channel();
 
-		void set_filename(const OsHelper::FileNameType & name) { if (m_channel) { m_channel.reset(); } m_file = name; }
-		void set_max_size(size_t s) { if (m_channel) { m_channel.reset(); } m_maxSize = s; }
-		void set_max_files(size_t fs) { if (m_channel) { m_channel.reset(); } m_maxFiles = fs; }
+		void set_filename(const OsHelper::FileNameType & name);
+		void set_max_size(size_t s);
+		void set_max_files(size_t fs);
 
 	protected:
 		OsHelper::FileNameType m_file;
 		size_t m_maxSize;
 		size_t m_maxFiles;
-
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	inline ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::BlockFileChannel>::get_channel() 
+	{ if (!m_channel) { m_channel.reset(new LogChannelBlockFile<M>(m_file, m_maxSize, m_maxFiles)); } return m_channel; }
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::BlockFileChannel>::set_filename(const OsHelper::FileNameType & name) 
+	{ if (m_channel) { m_channel.reset(); } m_file = name; }
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::BlockFileChannel>::set_max_size(size_t s) 
+	{ if (m_channel) { m_channel.reset(); } m_maxSize = s; }
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::BlockFileChannel>::set_max_files(size_t fs) 
+	{ if (m_channel) { m_channel.reset(); } m_maxFiles = fs; }
+
+
 
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::DateFileChannel> : public ChannelOptionBase
 	{
 	public:
 		ChannelOption() : m_hours(1) {  }
-		ChannelList::LogChannelPtr get_channel() 
-		{
-			switch (m_hours)
-			{
-			case 1:
-				if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameHour>(m_file)); }
-				break;
-			case 24:
-				if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameDay>(m_file)); }
-				break;
-			case 7*24:
-				if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameWeek>(m_file)); }
-				break;
-			case 30 * 24:
-			default:
-				if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameMonth>(m_file)); }
-			}
-			return m_channel;
-		}
+		ChannelList::LogChannelPtr get_channel();
 
-		void set_filename(const OsHelper::FileNameType & name) { if (m_channel) { m_channel.reset(); } m_file = name; }
-		void set_hours(size_t hs) { if (m_channel) { m_channel.reset(); } m_hours = hs; }
+		void set_filename(const OsHelper::FileNameType & name);
+		void set_hours(size_t hs);
 
 	protected:
 		OsHelper::FileNameType m_file;
 		size_t m_hours;
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	inline ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::DateFileChannel>::get_channel() 
+	{
+		switch (m_hours)
+		{
+		case 1:
+			if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameHour>(m_file)); }
+			break;
+		case 24:
+			if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameDay>(m_file)); }
+			break;
+		case 7*24:
+			if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameWeek>(m_file)); }
+			break;
+		case 30 * 24:
+		default:
+			if (!m_channel) { m_channel.reset(new LogChannelDateFile<M, DateNameMonth>(m_file)); }
+		}
+		return m_channel;
+	}
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::DateFileChannel>::set_filename(const OsHelper::FileNameType & name) 
+	{ if (m_channel) { m_channel.reset(); } m_file = name; }
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::DateFileChannel>::set_hours(size_t hs) 
+	{ if (m_channel) { m_channel.reset(); } m_hours = hs; }
+
+
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::StdOutChannel> : public ChannelOptionBase
 	{
 	public:
 		ChannelOption() : m_color(false) {  }
-		ChannelList::LogChannelPtr get_channel() 
-		{ 
-			if (m_color)
-			{
-				if (!m_channel) { m_channel.reset(new LogChannelStdOutColor(LogSharedPtr<LogChannelStdOut>::type(new LogChannelStdOut()))); }
-			}
-			else
-			{
-				if (!m_channel) { m_channel.reset(new LogChannelStdOut()); }
-			}
-			return m_channel;
-		}
+		ChannelList::LogChannelPtr get_channel();
 
-		void set_color(bool color) { if (m_channel) { m_channel.reset(); } m_color = color; }
+		void set_color(bool color);
 
 	protected:
 		bool m_color;
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	inline ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::StdOutChannel>::get_channel()
+	{ 
+		if (m_color)
+		{
+			if (!m_channel) { m_channel.reset(new LogChannelStdOutColor(LogSharedPtr<LogChannelStdOut>::type(new LogChannelStdOut()))); }
+		}
+		else
+		{
+			if (!m_channel) { m_channel.reset(new LogChannelStdOut()); }
+		}
+		return m_channel;
+	}
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::StdOutChannel>::set_color(bool color) 
+	{ if (m_channel) { m_channel.reset(); } m_color = color; }
+
+
 
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::StdErrChannel> : public ChannelOptionBase
 	{
 	public:
 		ChannelOption() : m_color(false) {  }
-		ChannelList::LogChannelPtr get_channel() 
-		{ 
-			if (m_color)
-			{
-				if (!m_channel) { m_channel.reset(new LogChannelStdOutColor(LogSharedPtr<LogChannelStdErr>::type(new LogChannelStdErr()))); }
-			}
-			else
-			{
-				if (!m_channel) { m_channel.reset(new LogChannelStdErr()); }
-			}
-			return m_channel;
-		}
+		ChannelList::LogChannelPtr get_channel();
 
-		void set_color(bool color) { if (m_channel) { m_channel.reset(); } m_color = color; }
+		void set_color(bool color);
 
 	protected:
 		bool m_color;
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	inline ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::StdErrChannel>::get_channel()
+	{ 
+		if (m_color)
+		{
+			if (!m_channel) { m_channel.reset(new LogChannelStdOutColor(LogSharedPtr<LogChannelStdErr>::type(new LogChannelStdErr()))); }
+		}
+		else
+		{
+			if (!m_channel) { m_channel.reset(new LogChannelStdErr()); }
+		}
+		return m_channel;
+	}
+	template <typename M>
+	inline void ChannelOption<M, LogChannelType::StdErrChannel>::set_color(bool color) 
+	{ if (m_channel) { m_channel.reset(); } m_color = color; }
+
 
 	template <typename M>
 	class LIGHTINK_TEMPLATE_DECL ChannelOption<M, LogChannelType::MsvcChannel> : public ChannelOptionBase
 	{
 	public:
-		ChannelList::LogChannelPtr get_channel() { if (!m_channel) { m_channel.reset(new LogChannelMsvc()); } return m_channel; }
+		ChannelList::LogChannelPtr get_channel();
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	template <typename M>
+	inline ChannelList::LogChannelPtr ChannelOption<M, LogChannelType::MsvcChannel>::get_channel() 
+	{ if (!m_channel) { m_channel.reset(new LogChannelMsvc()); } return m_channel; }
 
 	class LIGHTINK_DECL LogOption : public SmallObject
 	{

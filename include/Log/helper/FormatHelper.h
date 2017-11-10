@@ -33,15 +33,13 @@ namespace LightInk
 {
 	struct LIGHTINK_DECL FormatHelper
 	{
-		static inline int level_index(LogLevel::LEVEL l) { int li = l; int index = 0; while (li >>= 1) ++index; return index; }
-		static inline const char * am_pm(const tm & t) { return t.tm_hour >= 12 ? "PM" : "AM"; }
-		static inline int to_12h(const tm & t) { return t.tm_hour > 12 ? t.tm_hour - 12 : t.tm_hour; }
-		static inline const char * level_string(LogLevel::LEVEL l) { return level[level_index(l)]; }
-		static inline const char * full_level_string(LogLevel::LEVEL l) { return full_level[level_index(l)]; }
-		static inline fmt::MemoryWriter & pad_n_join(fmt::MemoryWriter & w, int v1, int v2, char sep)
-		{ w << fmt::pad(v1, 2, '0') << sep << fmt::pad(v2, 2, '0'); return w; }
-		static inline fmt::MemoryWriter & pad_n_join(fmt::MemoryWriter & w, int v1, int v2, int v3, char sep)
-		{ w << fmt::pad(v1, 2, '0') << sep << fmt::pad(v2, 2, '0') << sep << fmt::pad(v3, 2, '0'); return w; }
+		static int level_index(LogLevel::LEVEL l);
+		static const char * am_pm(const tm & t);
+		static int to_12h(const tm & t);
+		static const char * level_string(LogLevel::LEVEL l);
+		static const char * full_level_string(LogLevel::LEVEL l);
+		static fmt::MemoryWriter & pad_n_join(fmt::MemoryWriter & w, int v1, int v2, char sep);
+		static fmt::MemoryWriter & pad_n_join(fmt::MemoryWriter & w, int v1, int v2, int v3, char sep);
 
 		static const char * const wdays[];
 		static const char * const full_wdays[];
@@ -54,6 +52,29 @@ namespace LightInk
 		static const char * const file_line;
 
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	inline int FormatHelper::level_index(LogLevel::LEVEL l) 
+	{ int li = l; int index = 0; while (li >>= 1) ++index; return index; }
+
+	inline const char * FormatHelper::am_pm(const tm & t) 
+	{ return t.tm_hour >= 12 ? "PM" : "AM"; }
+
+	inline int FormatHelper::to_12h(const tm & t) 
+	{ return t.tm_hour > 12 ? t.tm_hour - 12 : t.tm_hour; }
+
+	inline const char * FormatHelper::level_string(LogLevel::LEVEL l) 
+	{ return level[level_index(l)]; }
+
+	inline const char * FormatHelper::full_level_string(LogLevel::LEVEL l) 
+	{ return full_level[level_index(l)]; }
+
+	inline fmt::MemoryWriter & FormatHelper::pad_n_join(fmt::MemoryWriter & w, int v1, int v2, char sep)
+	{ w << fmt::pad(v1, 2, '0') << sep << fmt::pad(v2, 2, '0'); return w; }
+
+	inline fmt::MemoryWriter & FormatHelper::pad_n_join(fmt::MemoryWriter & w, int v1, int v2, int v3, char sep)
+	{ w << fmt::pad(v1, 2, '0') << sep << fmt::pad(v2, 2, '0') << sep << fmt::pad(v3, 2, '0'); return w; }
 
 }
 

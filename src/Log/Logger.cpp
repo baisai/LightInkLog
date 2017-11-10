@@ -136,15 +136,14 @@ namespace LightInk
 		return LightInkLog->channel(this, item);
 	}
 
+	void Logger::default_error_handle(const string & msg) 
+	{ std::cerr << msg.c_str() << std::endl; }
+
+	RuntimeError Logger::do_flush() { return m_channel->flush(); }
+
 	RuntimeError Logger::do_channel(LogItem & item)
 	{
 		m_format->format(item);
-		RuntimeError err = m_channel->log(item);
-		if (err != RE_Success) { return err; }
-		if (should_flush(item.m_level))
-		{
-			err = flush();
-		}
-		return err;
+		return m_channel->log(item);
 	}
 }

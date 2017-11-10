@@ -74,11 +74,7 @@ namespace LightInk
 	protected:
 		virtual RuntimeError do_log(const LogItem & item);
 
-		virtual inline RuntimeError do_flush()
-		{
-			return m_channel->flush();
-		}
-
+		virtual RuntimeError do_flush();
 
 		LogChannelPtr m_channel;
 #ifdef _WIN32

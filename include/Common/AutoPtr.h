@@ -26,7 +26,6 @@
 #ifndef LIGHTINK_COMMON_AUTOPTR_H_
 #define LIGHTINK_COMMON_AUTOPTR_H_
 
-#include "Common/Config.h"
 #include "Common/SmallObject.h"
 
 namespace LightInk
@@ -71,16 +70,16 @@ namespace LightInk
 	};
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator == (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, T * right);
+	bool operator == (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, const T * right);
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator == (T * left, const AutoPtrWrapper<T, DelStrategy, Allocator> & right);
+	bool operator == (const T * left, const AutoPtrWrapper<T, DelStrategy, Allocator> & right);
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator != (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, T * right);
+	bool operator != (const AutoPtrWrapper<T, DelStrategy, Allocator> & left, const T * right);
 
 	template <typename T, typename DelStrategy, typename Allocator>
-	bool operator != (T * left,const AutoPtrWrapper<T, DelStrategy, Allocator> & right);
+	bool operator != (const T * left,const AutoPtrWrapper<T, DelStrategy, Allocator> & right);
 
 
 
@@ -89,6 +88,13 @@ namespace LightInk
 		template <typename T>
 		static void release(T * ptr);
 	};
+
+	struct PtrDelStrategyUser
+	{
+		template <typename T>
+		static void release(T * ptr);
+	};
+
 	struct ArrayDelStrategy
 	{
 		template <typename T>
@@ -100,6 +106,12 @@ namespace LightInk
 	struct AutoPtr
 	{
 		typedef AutoPtrWrapper<T, PtrDelStrategy, SmallObject> type;
+	};
+
+	template <typename T, typename TDelStrategy>
+	struct AutoPtrUser
+	{
+		typedef AutoPtrWrapper<T, TDelStrategy, SmallObject> type;
 	};
 
 	template <typename T>

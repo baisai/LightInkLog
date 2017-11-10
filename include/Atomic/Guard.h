@@ -32,19 +32,12 @@ namespace LightInk
 	public:
 		typedef T MutexType;
 
-		explicit Guard(MutexType & mt)
-		{
-			m_mutex = &mt;
-			m_mutex->lock();
-		}
+		explicit Guard(MutexType & mt) : m_mutex(mt) { m_mutex.lock(); }
 
-		~Guard()
-		{
-			m_mutex->unlock();
-		}
+		~Guard() { m_mutex.unlock(); }
 
 	private:
-		MutexType * m_mutex;
+		MutexType & m_mutex;
 	};
 
 	template<typename T>
@@ -53,19 +46,12 @@ namespace LightInk
 	public:
 		typedef T MutexType;
 
-		explicit ReadGuard(MutexType & mt)
-		{
-			m_mutex = &mt;
-			m_mutex->read_lock();
-		}
+		explicit ReadGuard(MutexType & mt) : m_mutex(mt) { m_mutex.read_lock(); }
 
-		~ReadGuard()
-		{
-			m_mutex->read_unlock();
-		}
+		ReadGuard() { m_mutex.read_unlock(); }
 
 	private:
-		MutexType * m_mutex;
+		MutexType & m_mutex;
 	};
 
 	template<typename T>
@@ -74,19 +60,12 @@ namespace LightInk
 	public:
 		typedef T MutexType;
 
-		explicit WriteGuard(MutexType & mt)
-		{
-			m_mutex = &mt;
-			m_mutex->write_lock();
-		}
+		explicit WriteGuard(MutexType & mt) : m_mutex(mt) { m_mutex.write_lock(); }
 
-		~WriteGuard()
-		{
-			m_mutex->write_unlock();
-		}
+		~WriteGuard() { m_mutex.write_unlock(); }
 
 	private:
-		MutexType * m_mutex;
+		MutexType & m_mutex;
 	};
 }
 

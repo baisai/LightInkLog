@@ -25,6 +25,7 @@
 
 #define LIGHTINK_COMMON_STLTYPE_H_
 
+#include <wchar.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -34,15 +35,8 @@
 
 namespace LightInk
 {
-	typedef std::basic_string<char, std::char_traits<char> > string;
-	typedef std::basic_string<wchar_t, std::char_traits<wchar_t> > wstring;
-
-	template <typename T>
-	struct LIGHTINK_TEMPLATE_DECL vector { typedef std::vector<T> type; };
-
-
-	template <typename K, typename V>
-	struct LIGHTINK_TEMPLATE_DECL map { typedef std::map<K, V> type; };
+	typedef std::basic_string<char, std::char_traits<char> > string;	typedef std::basic_string<wchar_t, std::char_traits<wchar_t> > wstring;
+	template <typename T>	struct LIGHTINK_TEMPLATE_DECL vector { typedef std::vector<T> type; };	template <typename K, typename V>	struct LIGHTINK_TEMPLATE_DECL map { typedef std::map<K, V> type; };
 	
 }
 

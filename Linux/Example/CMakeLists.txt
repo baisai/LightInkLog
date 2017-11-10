@@ -16,9 +16,13 @@ foreach(k ${sourceFile} )
 endforeach(k)
 
 
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if (CMAKE_BUILD_TYPE STREQUAL Release)
+	add_definitions("-DNDEBUG")
+else ()
 	add_definitions("-D_DEBUG")
+	set( CMAKE_BUILD_TYPE Debug )
 endif ()
+
 add_definitions("-DLIGHTINK_AS_DLL")
 
 add_executable( ${PROJECT_NAME} ${fullSourcePath} )
@@ -29,8 +33,10 @@ target_link_libraries(${PROJECT_NAME} LightInkLog )
 
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../../bin/Debug)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -W -pipe -fPIC")
 else()
 set(EXECUTABLE_OUTPUT_PATH ${Example_SOURCE_DIR}/../../bin/Release)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -W -pipe -fPIC")
 endif()
 
 

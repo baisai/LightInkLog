@@ -48,12 +48,12 @@ namespace LightInk
 
 
 		RuntimeError log(LogLevel::LEVEL level, const char * fmt, const fmt::ArgList & args);
-		RuntimeError inline trace(const char * fmt, const fmt::ArgList & args){ return log(LogLevel::LogMsg_Trace, fmt, args); }
-		RuntimeError inline debug(const char * fmt, const fmt::ArgList & args) { return log(LogLevel::LogMsg_Debug, fmt, args); }
-		RuntimeError inline message(const char * fmt, const fmt::ArgList & args) { return log(LogLevel::LogMsg_Message, fmt, args); }
-		RuntimeError inline warning(const char * fmt, const fmt::ArgList & args) { return log(LogLevel::LogMsg_Warning, fmt, args); }
-		RuntimeError inline error(const char * fmt, const fmt::ArgList & args) { return log(LogLevel::LogMsg_Error, fmt, args); }
-		RuntimeError inline fatal(const char * fmt, const fmt::ArgList & args) { return log(LogLevel::LogMsg_Fatal, fmt, args); }
+		RuntimeError trace(const char * fmt, const fmt::ArgList & args);
+		RuntimeError debug(const char * fmt, const fmt::ArgList & args);
+		RuntimeError message(const char * fmt, const fmt::ArgList & args);
+		RuntimeError warning(const char * fmt, const fmt::ArgList & args);
+		RuntimeError error(const char * fmt, const fmt::ArgList & args);
+		RuntimeError fatal(const char * fmt, const fmt::ArgList & args);
 		FMT_VARIADIC(RuntimeError, log, LogLevel::LEVEL, const char *)
 		FMT_VARIADIC(RuntimeError, trace, const char *)
 		FMT_VARIADIC(RuntimeError, debug, const char *)
@@ -64,12 +64,12 @@ namespace LightInk
 
 
 		RuntimeError log_fl(const LogFileLine & fl, LogLevel::LEVEL level, const char * fmt, const fmt::ArgList & args);
-		RuntimeError inline trace_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args){ return log_fl(fl, LogLevel::LogMsg_Trace, fmt, args); }
-		RuntimeError inline debug_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) { return log_fl(fl, LogLevel::LogMsg_Debug, fmt, args); }
-		RuntimeError inline message_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) { return log_fl(fl, LogLevel::LogMsg_Message, fmt, args); }
-		RuntimeError inline warning_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) { return log_fl(fl, LogLevel::LogMsg_Warning, fmt, args); }
-		RuntimeError inline error_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) { return log_fl(fl, LogLevel::LogMsg_Error, fmt, args); }
-		RuntimeError inline fatal_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) { return log_fl(fl, LogLevel::LogMsg_Fatal, fmt, args); }
+		RuntimeError trace_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args);
+		RuntimeError debug_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args);
+		RuntimeError message_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args);
+		RuntimeError warning_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args);
+		RuntimeError error_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args);
+		RuntimeError fatal_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args);
 		FMT_VARIADIC(RuntimeError, log_fl, const LogFileLine &, LogLevel::LEVEL, const char *)
 		FMT_VARIADIC(RuntimeError, trace_fl, const LogFileLine &, const char *)
 		FMT_VARIADIC(RuntimeError, debug_fl, const LogFileLine &, const char *)
@@ -80,108 +80,62 @@ namespace LightInk
 
 
 		template <typename T>
-		RuntimeError log(LogLevel::LEVEL level, const T & t)
-		{
-			if (!should_log(level)) { return RE_Success; }
-			try
-			{
-				LogItem item(&m_name, level);
-				item.m_msg << t;
-				return channel(item);
-			}
-			catch (const std::exception & e)
-			{
-				if (m_err) { m_err(e.what()); }
-				else { default_error_handle(e.what()); }
-				return RE_Log_LogFailed;
-			}
-			catch (...)
-			{
-				if (m_err) { m_err("unknown error!!!"); }
-				else { default_error_handle("unknown error!!!"); }
-				return RE_Log_LogFailed;
-			}
-		}
-		template <typename T>
-		RuntimeError inline trace(const T & t) { return log(LogLevel::LogMsg_Trace, t); }
-		template <typename T>
-		RuntimeError inline debug(const T & t) { return log(LogLevel::LogMsg_Debug, t); }
-		template <typename T>
-		RuntimeError inline message(const T & t) { return log(LogLevel::LogMsg_Message, t); }
-		template <typename T>
-		RuntimeError inline warning(const T & t) { return log(LogLevel::LogMsg_Warning, t); }
-		template <typename T>
-		RuntimeError inline error(const T & t) { return log(LogLevel::LogMsg_Error, t); }
-		template <typename T>
-		RuntimeError inline fatal(const T & t) { return log(LogLevel::LogMsg_Fatal, t); }
-
-
+		RuntimeError log(LogLevel::LEVEL level, const T & t);
 
 		template <typename T>
-		RuntimeError log_fl(const LogFileLine & fl, LogLevel::LEVEL level, const T & t)
-		{
-			if (!should_log(level)) { return RE_Success; }
-			try
-			{
-				LogItem item(&m_name, level);
-				item.m_fl = fl;
-				item.m_msg << t;
-				return channel(item);
-			}
-			catch (const std::exception & e)
-			{
-				if (m_err) { m_err(e.what()); }
-				else { default_error_handle(e.what()); }
-				return RE_Log_LogFailed;
-			}
-			catch (...)
-			{
-				if (m_err) { m_err("unknown error!!!"); }
-				else { default_error_handle("unknown error!!!"); }
-				return RE_Log_LogFailed;
-			}
-		}
+		RuntimeError trace(const T & t);
 		template <typename T>
-		RuntimeError inline trace_fl(const LogFileLine & fl,const T & t) { return log_fl(fl, LogLevel::LogMsg_Trace, t); }
+		RuntimeError debug(const T & t);
 		template <typename T>
-		RuntimeError inline debug_fl(const LogFileLine & fl,const T & t) { return log_fl(fl, LogLevel::LogMsg_Debug, t); }
+		RuntimeError message(const T & t);
 		template <typename T>
-		RuntimeError inline message_fl(const LogFileLine & fl,const T & t) { return log_fl(fl, LogLevel::LogMsg_Message, t); }
+		RuntimeError warning(const T & t);
 		template <typename T>
-		RuntimeError inline warning_fl(const LogFileLine & fl,const T & t) { return log_fl(fl, LogLevel::LogMsg_Warning, t); }
+		RuntimeError error(const T & t);
 		template <typename T>
-		RuntimeError inline error_fl(const LogFileLine & fl,const T & t) { return log_fl(fl, LogLevel::LogMsg_Error, t); }
+		RuntimeError fatal(const T & t);
+
 		template <typename T>
-		RuntimeError inline fatal_fl(const LogFileLine & fl,const T & t) { return log_fl(fl, LogLevel::LogMsg_Fatal, t); }
+		RuntimeError log_fl(const LogFileLine & fl, LogLevel::LEVEL level, const T & t);
+		
+		template <typename T>
+		RuntimeError trace_fl(const LogFileLine & fl,const T & t);
+		template <typename T>
+		RuntimeError debug_fl(const LogFileLine & fl,const T & t);
+		template <typename T>
+		RuntimeError message_fl(const LogFileLine & fl,const T & t);
+		template <typename T>
+		RuntimeError warning_fl(const LogFileLine & fl,const T & t);
+		template <typename T>
+		RuntimeError error_fl(const LogFileLine & fl,const T & t);
+		template <typename T>
+		RuntimeError fatal_fl(const LogFileLine & fl,const T & t);
 
 		RuntimeError flush();
 		RuntimeError channel(LogItem & item);
 
-		inline bool should_log(LogLevel::LEVEL level) const { return (level & m_level) != 0;}
-		inline bool should_flush(LogLevel::LEVEL level) const { return (level & m_flushLevel) != 0;}
+		bool should_log(LogLevel::LEVEL level) const;
+		bool should_flush(LogLevel::LEVEL level) const;
 
-		inline void add_level(LogLevel::LEVEL level) { m_level |= level; }
-		inline void remove_level(LogLevel::LEVEL level) { m_level &= (~level); }
-		inline void reset_level(uint32 level) { m_level = level; }
+		void add_level(LogLevel::LEVEL level);
+		void remove_level(LogLevel::LEVEL level);
+		void reset_level(uint32 level);
 
-		inline void add_flush_level(LogLevel::LEVEL level) { m_flushLevel |= level; }
-		inline void remove_flush_level(LogLevel::LEVEL level) { m_flushLevel &= (~level); }
-		inline void reset_flush_level(uint32 level) { m_flushLevel = level; }
+		void add_flush_level(LogLevel::LEVEL level);
+		void remove_flush_level(LogLevel::LEVEL level);
+		void reset_flush_level(uint32 level);
 
-		inline uint32 get_level() const { return m_level; }
-		inline uint32 get_flush_level() const { return m_flushLevel; }
+		uint32 get_level() const;
+		uint32 get_flush_level() const;
 
-		inline const string & get_name() const { return m_name; }
-		inline void set_error_handle(OsHelper::log_err_handle err) { m_err = err; }
-		inline OsHelper::log_err_handle get_error_handle() { return m_err; }
-
+		const string & get_name() const;
+		void set_error_handle(OsHelper::log_err_handle err);
+		OsHelper::log_err_handle get_error_handle();
 
 	protected:
-		virtual inline void default_error_handle(const string & msg) { std::cerr << msg.c_str() << std::endl; }
-
-		inline virtual RuntimeError do_flush() { return m_channel->flush(); }
+		virtual void default_error_handle(const string & msg);
+		virtual RuntimeError do_flush();
 		virtual RuntimeError do_channel(LogItem & item);
-
 
 	protected:
 		const string m_name;
@@ -194,6 +148,158 @@ namespace LightInk
 	LIGHTINK_DISABLE_COPY(Logger)
 
 	};
+	///////////////////////////////////////////////////////////////////////
+	//inline method
+	//////////////////////////////////////////////////////////////////////
+	inline RuntimeError Logger::trace(const char * fmt, const fmt::ArgList & args)
+	{ return log(LogLevel::LogMsg_Trace, fmt, args); }
+
+	inline RuntimeError Logger::debug(const char * fmt, const fmt::ArgList & args) 
+	{ return log(LogLevel::LogMsg_Debug, fmt, args); }
+
+	inline RuntimeError Logger::message(const char * fmt, const fmt::ArgList & args) 
+	{ return log(LogLevel::LogMsg_Message, fmt, args); }
+
+	inline RuntimeError Logger::warning(const char * fmt, const fmt::ArgList & args) 
+	{ return log(LogLevel::LogMsg_Warning, fmt, args); }
+
+	inline RuntimeError Logger::error(const char * fmt, const fmt::ArgList & args) 
+	{ return log(LogLevel::LogMsg_Error, fmt, args); }
+
+	inline RuntimeError Logger::fatal(const char * fmt, const fmt::ArgList & args) 
+	{ return log(LogLevel::LogMsg_Fatal, fmt, args); }
+
+	inline RuntimeError Logger::trace_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args)
+	{ return log_fl(fl, LogLevel::LogMsg_Trace, fmt, args); }
+
+	inline RuntimeError Logger::debug_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) 
+	{ return log_fl(fl, LogLevel::LogMsg_Debug, fmt, args); }
+
+	inline RuntimeError Logger::message_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) 
+	{ return log_fl(fl, LogLevel::LogMsg_Message, fmt, args); }
+
+	inline RuntimeError Logger::warning_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) 
+	{ return log_fl(fl, LogLevel::LogMsg_Warning, fmt, args); }
+
+	inline RuntimeError Logger::error_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) 
+	{ return log_fl(fl, LogLevel::LogMsg_Error, fmt, args); }
+
+	inline RuntimeError Logger::fatal_fl(const LogFileLine & fl, const char * fmt, const fmt::ArgList & args) 
+	{ return log_fl(fl, LogLevel::LogMsg_Fatal, fmt, args); }
+
+	template <typename T>
+	RuntimeError Logger::log(LogLevel::LEVEL level, const T & t)
+	{
+		if (!should_log(level)) { return RE_Success; }
+		try
+		{
+			LogItem item(&m_name, level);
+			item.m_msg << t;
+			return channel(item);
+		}
+		catch (const std::exception & e)
+		{
+			if (m_err) { m_err(e.what()); }
+			else { default_error_handle(e.what()); }
+			return RE_Log_LogFailed;
+		}
+		catch (...)
+		{
+			if (m_err) { m_err("unknown error!!!"); }
+			else { default_error_handle("unknown error!!!"); }
+			return RE_Log_LogFailed;
+		}
+	}
+
+	template <typename T>
+	inline RuntimeError Logger::trace(const T & t) { return log(LogLevel::LogMsg_Trace, t); }
+	template <typename T>
+	inline RuntimeError Logger::debug(const T & t) { return log(LogLevel::LogMsg_Debug, t); }
+	template <typename T>
+	inline RuntimeError Logger::message(const T & t) { return log(LogLevel::LogMsg_Message, t); }
+	template <typename T>
+	inline RuntimeError Logger::warning(const T & t) { return log(LogLevel::LogMsg_Warning, t); }
+	template <typename T>
+	inline RuntimeError Logger::error(const T & t) { return log(LogLevel::LogMsg_Error, t); }
+	template <typename T>
+	inline RuntimeError Logger::fatal(const T & t) { return log(LogLevel::LogMsg_Fatal, t); }
+
+
+
+	template <typename T>
+	RuntimeError Logger::log_fl(const LogFileLine & fl, LogLevel::LEVEL level, const T & t)
+	{
+		if (!should_log(level)) { return RE_Success; }
+		try
+		{
+			LogItem item(&m_name, level);
+			item.m_fl = fl;
+			item.m_msg << t;
+			return channel(item);
+		}
+		catch (const std::exception & e)
+		{
+			if (m_err) { m_err(e.what()); }
+			else { default_error_handle(e.what()); }
+			return RE_Log_LogFailed;
+		}
+		catch (...)
+		{
+			if (m_err) { m_err("unknown error!!!"); }
+			else { default_error_handle("unknown error!!!"); }
+			return RE_Log_LogFailed;
+		}
+	}
+
+	template <typename T>
+	inline RuntimeError Logger::trace_fl(const LogFileLine & fl,const T & t) 
+	{ return log_fl(fl, LogLevel::LogMsg_Trace, t); }
+	
+	template <typename T>
+	inline RuntimeError Logger::debug_fl(const LogFileLine & fl,const T & t) 
+	{ return log_fl(fl, LogLevel::LogMsg_Debug, t); }
+	
+	template <typename T>
+	inline RuntimeError Logger::message_fl(const LogFileLine & fl,const T & t) 
+	{ return log_fl(fl, LogLevel::LogMsg_Message, t); }
+	
+	template <typename T>
+	inline RuntimeError Logger::warning_fl(const LogFileLine & fl,const T & t) 
+	{ return log_fl(fl, LogLevel::LogMsg_Warning, t); }
+	
+	template <typename T>
+	inline RuntimeError Logger::error_fl(const LogFileLine & fl,const T & t) 
+	{ return log_fl(fl, LogLevel::LogMsg_Error, t); }
+	
+	template <typename T>
+	inline RuntimeError Logger::fatal_fl(const LogFileLine & fl,const T & t) 
+	{ return log_fl(fl, LogLevel::LogMsg_Fatal, t); }
+
+	inline bool Logger::should_log(LogLevel::LEVEL level) const { return (level & m_level) != 0;}
+
+	inline bool Logger::should_flush(LogLevel::LEVEL level) const { return (level & m_flushLevel) != 0;}
+
+	inline void Logger::add_level(LogLevel::LEVEL level) { m_level |= level; }
+
+	inline void Logger::remove_level(LogLevel::LEVEL level) { m_level &= (~level); }
+
+	inline void Logger::reset_level(uint32 level) { m_level = level; }
+
+	inline void Logger::add_flush_level(LogLevel::LEVEL level) { m_flushLevel |= level; }
+
+	inline void Logger::remove_flush_level(LogLevel::LEVEL level) { m_flushLevel &= (~level); }
+
+	inline void Logger::reset_flush_level(uint32 level) { m_flushLevel = level; }
+
+	inline uint32 Logger::get_level() const { return m_level; }
+
+	inline uint32 Logger::get_flush_level() const { return m_flushLevel; }
+
+	inline const string & Logger::get_name() const { return m_name; }
+
+	inline void Logger::set_error_handle(OsHelper::log_err_handle err) { m_err = err; }
+
+	inline OsHelper::log_err_handle Logger::get_error_handle() { return m_err; }
 
 	typedef LogSharedPtrAuto<Logger>::type LoggerPtr;
 

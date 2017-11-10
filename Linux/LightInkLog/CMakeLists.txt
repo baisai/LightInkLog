@@ -8,9 +8,10 @@ set( sourceRootPath ${LightInkLog_SOURCE_DIR}/../../src )
 
 set( middlePath Common )
 set( sourceFile 
+	LightInkVersion.cpp
+	OsHelper.cpp
 	RuntimeError.cpp
 	SmallObject.cpp
-	LightInkVersion.cpp
 	WinSnprintf.c
 )
 foreach(k ${sourceFile} )
@@ -45,19 +46,29 @@ foreach(k ${sourceFile} )
 endforeach(k)
 
 
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if (CMAKE_BUILD_TYPE STREQUAL Release)
+	add_definitions("-DNDEBUG")
+else ()
 	add_definitions("-D_DEBUG")
+	set( CMAKE_BUILD_TYPE Debug )
 endif ()
+
 add_definitions("-DLIGHTINK_AS_DLL")
 add_definitions("-DLIGHTINK_EXPORTS")
 
 add_library( ${PROJECT_NAME} SHARED ${fullSourcePath} )
 
+find_library(RT_LIB NAMES rt)
+target_link_libraries(${PROJECT_NAME} ${RT_LIB})
+
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
 set(LIBRARY_OUTPUT_PATH ${LightInkLog_SOURCE_DIR}/../../bin/Debug)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -W -pipe -fPIC")
 else()
 set(LIBRARY_OUTPUT_PATH ${LightInkLog_SOURCE_DIR}/../../bin/Release)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -W -pipe -fPIC")
 endif()
+
 unset(middlePath)
 unset(sourceFile)
 unset(fullSourcePath)

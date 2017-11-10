@@ -183,6 +183,7 @@
     <ClInclude Include="..\..\include\Common\AutoPtr.h" />
     <ClInclude Include="..\..\include\Common\Config.h" />
     <ClInclude Include="..\..\include\Common\LightInkVersion.h" />
+    <ClInclude Include="..\..\include\Common\OsHelper.h" />
     <ClInclude Include="..\..\include\Common\RefCounter.h" />
     <ClInclude Include="..\..\include\Common\RuntimeError.h" />
     <ClInclude Include="..\..\include\Common\SharedPtr.h" />
@@ -225,12 +226,12 @@
     <ClInclude Include="..\..\include\Log\helper\FileHelper.h" />
     <ClInclude Include="..\..\include\Log\helper\FormatHelper.h" />
     <ClInclude Include="..\..\include\Log\helper\LogTraceHelper.h" />
-    <ClInclude Include="..\..\include\Log\helper\OsHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\include\Common\AutoPtr.cpp" />
     <ClCompile Include="..\..\include\Common\SharedPtr.cpp" />
     <ClCompile Include="..\..\src\Common\LightInkVersion.cpp" />
+    <ClCompile Include="..\..\src\Common\OsHelper.cpp" />
     <ClCompile Include="..\..\src\Common\RuntimeError.cpp" />
     <ClCompile Include="..\..\src\Common\SmallObject.cpp" />
     <ClCompile Include="..\..\src\Common\WinSnprintf.c" />

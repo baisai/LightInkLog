@@ -41,10 +41,7 @@ namespace LightInk
 	protected:
 		virtual RuntimeError do_log(const LogItem & item);
 
-		virtual inline RuntimeError do_flush()
-		{
-			return RE_Success;
-		}
+		virtual RuntimeError do_flush();
 
 		android_LogPriority convert_to_android(LogLevel::LEVEL level);
 
