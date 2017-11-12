@@ -25,7 +25,10 @@
 #define LIGHTINK_LOG_LOGTHREADTYPE_H_
 
 #ifdef _WIN32
-#include <windows.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include "Windows.h"
 #else
 #include <pthread.h>
 #endif

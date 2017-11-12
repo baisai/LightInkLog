@@ -43,8 +43,8 @@
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
-#include "windows.h"
-#include "WinSock2.h"
+#include "Windows.h"
+#include "WinSock.h"
 #endif
 
 namespace LightInk
