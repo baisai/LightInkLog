@@ -25,6 +25,7 @@ set( sourceFile
 	Logger.cpp
 	LoggerMgr.cpp
 	LogOption.cpp
+	LogThreadType.cpp
 	async/AsyncMsg.cpp
 	async/AsyncThread.cpp
 	channel/DateNameStrategy.cpp

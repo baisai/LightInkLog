@@ -246,6 +246,7 @@
     <ClCompile Include="..\..\src\Log\channel\LogChannelStdColor.cpp" />
     <ClCompile Include="..\..\src\Log\helper\FileHelper.cpp" />
     <ClCompile Include="..\..\src\Log\helper\FormatHelper.cpp" />
+    <ClCompile Include="..\..\src\Log\LogThreadType.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

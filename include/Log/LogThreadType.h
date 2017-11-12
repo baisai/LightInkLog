@@ -26,79 +26,67 @@
 
 
 #include "Common/TypeTool.h"
+#include "Common/SmallObject.h"
 #include "Common/SharedPtr.h"
 #include "Common/AutoPtr.h"
 #include "Log/LogConfig.h"
-#include "Atomic/mintomic.h"
-
-
-#if defined(LIGHTINK_LOG_MULTITHREAD) && defined(LIGHTINK_LOG_CXX11)
-
-#include <thread>
-#include <mutex>
-
-namespace LightInk
-{
-	typedef std::mutex Mutex;
-
-	class LIGHTINK_DECL Thread : public SmallObject
-	{
-	public:
-		Thread() : m_running(false), m_handle(NULL) {  }
-		virtual ~Thread() 
-		{ 
-			if (m_handle)
-			{
-				m_handle->join();
-				delete m_handle;
-				m_handle = NULL;
-			} 
-		}
-
-		int32 run()
-		{
-			if (m_running)
-			{
-				return 0;
-			}
-			m_running = true;
-			m_handle = new std::thread(work_thread, this);
-			return 0;
-		}
-		virtual void work() {  }
-
-		bool is_running() { return m_running; }
-
-		static void work_thread(void * arg)
-		{
-			Thread * t = (Thread *) arg;
-			t->work();
-			t->m_running = false;
-		}
-
-		static uint32 thread_self()
-		{
-			return std::this_thread::get_id().hash();
-		}
-
-	protected:
-		bool m_running;
-		std::thread * m_handle;
-
-	LIGHTINK_DISABLE_COPY(Thread)
-	};
-}
-
-#endif
 
 namespace LightInk
 {
 #ifdef LIGHTINK_LOG_MULTITHREAD
-	typedef Mutex LogLock;
-	typedef Thread LogThread;
+	class LIGHTINK_DECL LogLock
+	{
+	public:
+		LogLock();
+		~LogLock();
+
+		void lock();
+		int32 try_lock();
+		void unlock();
+
+	private:
+#ifdef _WIN32
+		CRITICAL_SECTION m_handle;
+#else
+		pthread_mutex_t m_handle;
 #endif
 
-#define LogSleepMillis mint_sleep_millis
+	LIGHTINK_DISABLE_COPY(LogLock)
+	};
+
+	class LIGHTINK_DECL LogThread : public SmallObject
+	{
+	public:
+		LogThread();
+		virtual ~LogThread();
+
+		int32 run();
+		virtual void work();
+
+		bool is_running();
+
+#ifdef _WIN32
+		static DWORD WINAPI work_thread(void * arg);
+#else
+		static void * work_thread(void * arg);
+#endif
+
+		static uint32 thread_self();
+
+	protected:
+		bool m_running;
+	private:
+#ifdef _WIN32
+		HANDLE m_handle;
+#else
+		pthread_t m_handle;
+#endif
+
+	LIGHTINK_DISABLE_COPY(LogThread)
+	};
+
+#endif
+
 	class LIGHTINK_DECL LogEmptyLock
 	{
 	public:
@@ -127,6 +115,8 @@ namespace LightInk
 		typedef SharedPtrWrapper<T, RefCounter<SmallObject>, PtrDelStrategy, SmallObject> type;
 	};
 
+#define LogSleepMillis mint_sleep_millis
+
 #ifdef LIGHTINK_LOG_MULTITHREAD
 #define LogSharedPtrAuto LightInk::LogSharedPtrTS
 #define LogLockAuto LightInk::LogLock
@@ -136,7 +126,6 @@ namespace LightInk
 #endif
 	
 #define SelectSharedPtr(M, T) typename TypeSelect<IsSameType<M, LogEmptyLock>::Result, LogSharedPtr<T>::type, LogSharedPtrTS<T>::type>::Result
-
 	
 }
 
