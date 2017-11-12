@@ -44,10 +44,7 @@
 #define WIN32_LEAN_AND_MEAN
 #endif
 #include "windows.h"
-struct timeval {
-	long    tv_sec;         /* seconds */
-	long    tv_usec;        /* and microseconds */
-};
+#include "WinSock2.h"
 #endif
 
 namespace LightInk
