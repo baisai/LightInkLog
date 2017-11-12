@@ -24,6 +24,12 @@
 #ifndef LIGHTINK_LOG_LOGTHREADTYPE_H_
 #define LIGHTINK_LOG_LOGTHREADTYPE_H_
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <pthread.h>
+#endif
+
 
 #include "Common/TypeTool.h"
 #include "Common/SmallObject.h"
