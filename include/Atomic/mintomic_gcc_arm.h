@@ -147,6 +147,11 @@ MINT_C_INLINE void mint_store_32_relaxed(mint_atomic32_t *object, uint32_t desir
     }
 #endif
 
+uint32_t mint_exchange_32_relaxed(mint_atomic32_t *object, uint32_t desired)
+{
+	return mint_compare_exchange_strong_32_relaxed(object, object->_nonatomic, desired);
+}
+
 
 //----------------------------------------------
 //  64-bit atomic operations
@@ -159,6 +164,10 @@ uint64_t mint_fetch_add_64_relaxed(mint_atomic64_t *object, int64_t operand);
 uint64_t mint_fetch_and_64_relaxed(mint_atomic64_t *object, uint64_t operand);
 uint64_t mint_fetch_or_64_relaxed(mint_atomic64_t *object, uint64_t operand);
 
+uint32_t mint_exchange_64_relaxed(mint_atomic64_t *object, uint64_t desired)
+{
+	return mint_compare_exchange_strong_64_relaxed(object, object->_nonatomic, desired);
+}
 
 #ifdef __cplusplus
 } // extern "C"
