@@ -192,14 +192,14 @@
     <ClInclude Include="..\..\include\Atomic\Atomic.h">
       <Filter>Atomic\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Atomic\mintomic.h">
-      <Filter>Atomic\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Atomic\Guard.h">
       <Filter>Atomic\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Common\OsHelper.h">
       <Filter>Common\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Atomic\turf.h">
+      <Filter>Atomic\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

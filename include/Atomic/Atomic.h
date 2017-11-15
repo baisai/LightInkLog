@@ -25,7 +25,7 @@
 #define LIGHTINK_THREAD_ATOMIC_H_
 
 #include "Common/Type.h"
-#include "Atomic/mintomic.h"
+#include "Atomic/turf.h"
 
 namespace LightInk
 {
@@ -33,20 +33,56 @@ namespace LightInk
 	class LIGHTINK_TEMPLATE_DECL Atomic;
 
 	template <>
+	class LIGHTINK_TEMPLATE_DECL Atomic<uint8>
+	{
+	public:
+		Atomic() { store(0); }
+		inline uint8 load() const { return turf_load8Relaxed(&m_handle); }
+		inline void store(uint8 desired) { turf_store8Relaxed(&m_handle, desired); }
+		inline uint8 exchange(uint8 desired) { return turf_exchange8Relaxed(&m_handle, desired); }
+		inline uint8 compare_exchange(uint8 expected, uint8 desired) { return turf_compareExchange8Relaxed(&m_handle, expected, desired); }
+		inline uint8 fetch_add(int8 operand) { return turf_fetchAdd8Relaxed(&m_handle, operand); }
+		inline uint8 fetch_or(uint8 operand) { return turf_fetchOr8Relaxed(&m_handle, operand); }
+		inline uint8 fetch_and(uint8 operand) { return turf_fetchAnd8Relaxed(&m_handle, operand); }
+
+	private:
+		turf_atomic8_t m_handle;
+		LIGHTINK_DISABLE_COPY(Atomic)
+	};
+
+	template <>
+	class LIGHTINK_TEMPLATE_DECL Atomic<uint16>
+	{
+	public:
+		Atomic() { store(0); }
+		inline uint16 load() const { return turf_load16Relaxed(&m_handle); }
+		inline void store(uint16 desired) { turf_store16Relaxed(&m_handle, desired); }
+		inline uint16 exchange(uint16 desired) { return turf_exchange16Relaxed(&m_handle, desired); }
+		inline uint16 compare_exchange(uint16 expected, uint16 desired) { return turf_compareExchange16Relaxed(&m_handle, expected, desired); }
+		inline uint16 fetch_add(int16 operand) { return turf_fetchAdd16Relaxed(&m_handle, operand); }
+		inline uint16 fetch_or(uint16 operand) { return turf_fetchOr16Relaxed(&m_handle, operand); }
+		inline uint16 fetch_and(uint16 operand) { return turf_fetchAnd16Relaxed(&m_handle, operand); }
+
+	private:
+		turf_atomic16_t m_handle;
+		LIGHTINK_DISABLE_COPY(Atomic)
+	};
+
+	template <>
 	class LIGHTINK_TEMPLATE_DECL Atomic<uint32>
 	{
 	public:
 		Atomic() { store(0); }
-		inline uint32 load() { return mint_load_32_relaxed(&m_handle); }
-		inline void store(uint32 desired) { mint_store_32_relaxed(&m_handle, desired); }
-		inline uint32 exchange(uint32 desired) { return mint_exchange_32_relaxed(&m_handle, desired); }
-		inline uint32 compare_exchange(uint32 expected, uint32 desired) { return mint_compare_exchange_strong_32_relaxed(&m_handle, expected, desired); }
-		inline uint32 fetch_add(int32 operand) { return mint_fetch_add_32_relaxed(&m_handle, operand); }
-		inline uint32 fetch_or(uint32 operand) { return mint_fetch_or_32_relaxed(&m_handle, operand); }
-		inline uint32 fetch_and(uint32 operand) { return mint_fetch_and_32_relaxed(&m_handle, operand); }
+		inline uint32 load() const { return turf_load32Relaxed(&m_handle); }
+		inline void store(uint32 desired) { turf_store32Relaxed(&m_handle, desired); }
+		inline uint32 exchange(uint32 desired) { return turf_exchange32Relaxed(&m_handle, desired); }
+		inline uint32 compare_exchange(uint32 expected, uint32 desired) { return turf_compareExchange32Relaxed(&m_handle, expected, desired); }
+		inline uint32 fetch_add(int32 operand) { return turf_fetchAdd32Relaxed(&m_handle, operand); }
+		inline uint32 fetch_or(uint32 operand) { return turf_fetchOr32Relaxed(&m_handle, operand); }
+		inline uint32 fetch_and(uint32 operand) { return turf_fetchAnd32Relaxed(&m_handle, operand); }
 
 	private:
-		mint_atomic32_t m_handle;
+		turf_atomic32_t m_handle;
 	LIGHTINK_DISABLE_COPY(Atomic)
 	};
 
@@ -55,15 +91,15 @@ namespace LightInk
 	{
 	public:
 		Atomic() { store(0); }
-		inline uint64 load() { return mint_load_64_relaxed(&m_handle); }
-		inline void store(uint64 desired) { mint_store_64_relaxed(&m_handle, desired); }
-		inline uint64 exchange(uint64 desired) { return mint_exchange_64_relaxed(&m_handle, desired); }
-		inline uint64 compare_exchange(uint64 expected, uint64 desired) { return mint_compare_exchange_strong_64_relaxed(&m_handle, expected, desired); }
-		inline uint64 fetch_add(int64 operand) { return mint_fetch_add_64_relaxed(&m_handle, operand); }
-		inline uint64 fetch_or(uint64 operand) { return mint_fetch_or_64_relaxed(&m_handle, operand); }
-		inline uint64 fetch_and(uint64 operand) { return mint_fetch_and_64_relaxed(&m_handle, operand); }
+		inline uint64 load() const { return turf_load64Relaxed(&m_handle); }
+		inline void store(uint64 desired) { turf_store64Relaxed(&m_handle, desired); }
+		inline uint64 exchange(uint64 desired) { return turf_exchange64Relaxed(&m_handle, desired); }
+		inline uint64 compare_exchange(uint64 expected, uint64 desired) { return turf_compareExchange64Relaxed(&m_handle, expected, desired); }
+		inline uint64 fetch_add(int64 operand) { return turf_fetchAdd64Relaxed(&m_handle, operand); }
+		inline uint64 fetch_or(uint64 operand) { return turf_fetchOr64Relaxed(&m_handle, operand); }
+		inline uint64 fetch_and(uint64 operand) { return turf_fetchAnd64Relaxed(&m_handle, operand); }
 	private:
-		mint_atomic64_t m_handle;
+		turf_atomic64_t m_handle;
 	LIGHTINK_DISABLE_COPY(Atomic)
 	};
 
@@ -72,15 +108,15 @@ namespace LightInk
 	{
 	public:
 		Atomic() { store(NULL); }
-		inline T * load() { return (T *)mint_load_ptr_relaxed(&m_handle); }
-		inline void store(T * desired) { mint_store_ptr_relaxed(&m_handle, desired); }
-		inline T * exchange(T * desired) { return (T *)mint_exchange_ptr_relaxed(&m_handle, desired); }
-		inline T * compare_exchange(void * expected, void * desired) { return (T *)mint_compare_exchange_strong_ptr_relaxed(&m_handle, expected, desired); }
-		inline T * fetch_add(ptrdiff_t operand) { return (T *)mint_fetch_add_ptr_relaxed(&m_handle, operand); }
-		inline T * fetch_or(size_t operand) { return (T *)mint_fetch_or_ptr_relaxed(&m_handle, operand); }
-		inline T * fetch_and(size_t operand) { return (T *)mint_fetch_and_ptr_relaxed(&m_handle, operand); }
+		inline T * load() const { return (T *)turf_loadPtrRelaxed(&m_handle); }
+		inline void store(T * desired) { turf_storePtrRelaxed(&m_handle, desired); }
+		inline T * exchange(T * desired) { return (T *)turf_exchangePtrRelaxed(&m_handle, desired); }
+		inline T * compare_exchange(void * expected, void * desired) { return (T *)turf_compareExchangePtrRelaxed(&m_handle, expected, desired); }
+		inline T * fetch_add(ptrdiff_t operand) { return (T *)turf_fetchAddPtrRelaxed(&m_handle, operand); }
+		inline T * fetch_or(size_t operand) { return (T *)turf_fetchOrPtrRelaxed(&m_handle, operand); }
+		inline T * fetch_and(size_t operand) { return (T *)turf_fetchAndPtrRelaxed(&m_handle, operand); }
 	private:
-		mint_atomicPtr_t m_handle;
+		turf_atomicPtr_t m_handle;
 	LIGHTINK_DISABLE_COPY(Atomic)
 	};
 

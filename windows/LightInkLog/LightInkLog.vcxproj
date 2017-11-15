@@ -178,7 +178,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\Atomic\Atomic.h" />
     <ClInclude Include="..\..\include\Atomic\Guard.h" />
-    <ClInclude Include="..\..\include\Atomic\mintomic.h" />
+    <ClInclude Include="..\..\include\Atomic\turf.h" />
     <ClInclude Include="..\..\include\Common\AsyncQueue.h" />
     <ClInclude Include="..\..\include\Common\AutoPtr.h" />
     <ClInclude Include="..\..\include\Common\Config.h" />

@@ -124,7 +124,7 @@ namespace LightInk
 		typedef SharedPtrWrapper<T, RefCounter<SmallObject>, PtrDelStrategy, SmallObject> type;
 	};
 
-#define LogSleepMillis mint_sleep_millis
+#define LogSleepMillis turf_sleepMillis
 
 #ifdef LIGHTINK_LOG_MULTITHREAD
 #define LogSharedPtrAuto LightInk::LogSharedPtrTS

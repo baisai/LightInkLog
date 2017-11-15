@@ -40,7 +40,7 @@ endforeach(k)
 
 set( middlePath Atomic )
 set( sourceFile 
-	mintomic_gcc.c
+	atomic_gcc_arm.c
 )
 foreach(k ${sourceFile} )
   set( fullSourcePath ${fullSourcePath} ${sourceRootPath}/${middlePath}/${k} )
