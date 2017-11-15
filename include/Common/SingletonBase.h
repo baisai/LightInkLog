@@ -31,6 +31,7 @@ namespace LightInk
 	{
 	public:
 		virtual void destroy() = 0;
+		virtual ~SingletonBase() {  }
 	};
 }
 

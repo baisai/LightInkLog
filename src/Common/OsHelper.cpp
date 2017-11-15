@@ -62,28 +62,28 @@ namespace LightInk
 	{
 		if (fp == NULL) return 0;
 #ifdef _WIN32
-		int fd = ::_fileno(fp);
+		int fd = _fileno(fp);
 #if _WIN64 //64 bits
 		struct _stat64 st;
-		if (::_fstat64(fd, &st) == 0)
+		if (_fstat64(fd, &st) == 0)
 			return st.st_size;
 
 #else //windows 32 bits
 		struct _stat st;
-		if (::_fstat(fd, &st) == 0)
+		if (_fstat(fd, &st) == 0)
 			return st.st_size;
 #endif
 
 #else // unix
-		int fd = ::fileno(fp);
+		int fd = fileno(fp);
 		//64 bits(but not in osx, where fstat64 is deprecated)
 #if !defined(__FreeBSD__) && !defined(__APPLE__) && (defined(__x86_64__) || defined(__ppc64__))
 		struct stat64 st;
-		if (::fstat64(fd, &st) == 0)
+		if (fstat64(fd, &st) == 0)
 			return st.st_size;
 #else // unix 32 bits or osx
 		struct stat st;
-		if (::fstat(fd, &st) == 0)
+		if (fstat(fd, &st) == 0)
 			return st.st_size;
 #endif
 #endif
