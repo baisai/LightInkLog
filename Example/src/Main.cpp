@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
 	lo.add_channel(sc);
 	LightInkLogCppInit(lo);
 	LightInkLog->init_async(1000, LightInk::AsyncMsg::Block);
-	LogTrace("int main(int argc, char ** argv)");
+	LogTraceStepCall("int main(int argc, char ** argv)");
 
 	LogDebug(100);
 
@@ -47,6 +47,6 @@ int main(int argc, char ** argv)
 	LogFatal("this is fatal");
 
 	getchar();
-	LogTraceReturn(0);
+	LogTraceStepReturn(0);
 	LightInkLog->release();
 }

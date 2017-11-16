@@ -38,21 +38,33 @@
 ///////////////////////////
 #ifdef LightInkNoTrace
 #define LogTrace(ft, ...)
-#define LogTraceReturn(v) return v
-#define LogTraceReturnVoid return
 #define LogTraceEnd
-
+#ifndef LightInkNoTraceStepCall
+#define LightInkNoTraceStepCall
+#endif
 #else
-#define LogTrace(ft, ...) \
-		fmt::MemoryWriter ___mess; \
-		___mess.write(ft, ##__VA_ARGS__); \
-		LightInk::LogTraceHelper ___trace(__FILE__, __LINE__, &___mess)
-#define LogTraceReturn(v) \
-		do {___trace.set_line(__LINE__); return v; } while (0)
-#define LogTraceReturnVoid \
-		do {___trace.set_line(__LINE__); return; } while (0)
+#define LogTrace(name, ft, ...) \
+		fmt::MemoryWriter __##name_mess; \
+		__##name_mess.write("["#name"]"); \
+		__##name_mess.write(ft, ##__VA_ARGS__); \
+		LightInk::LogTraceHelper __##name_trace(__FILE__, __LINE__, &__##name_mess)
 #define LogTraceEnd \
-		do {___trace.set_line(__LINE__); } while (0)
+		do {__##name_trace.set_line(__LINE__); __##name_trace.log_out(); } while (0)
+#endif
+
+#ifdef LightInkNoTraceStepCall
+#define LogTraceStepCall(ft, ...)
+#define LogTraceStepReturn(v) return v
+#define LogTraceStepReturnVoid return
+#else
+#define LogTraceStepCall(ft, ...) \
+	fmt::MemoryWriter ___mess; \
+	___mess.write(ft, ##__VA_ARGS__); \
+	LightInk::LogTraceHelper ___trace(__FILE__, __LINE__, &___mess)
+#define LogTraceStepReturn(v) \
+	do {___trace.set_line(__LINE__); return v; } while (0)
+#define LogTraceStepReturnVoid \
+	do {___trace.set_line(__LINE__); return; } while (0)
 #endif
 
 ////////////////////////
