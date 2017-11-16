@@ -24,6 +24,7 @@
 #ifndef LIGHTINK_LOG_LOGTHREADTYPE_H_
 #define LIGHTINK_LOG_LOGTHREADTYPE_H_
 
+
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -33,12 +34,12 @@
 #include <pthread.h>
 #endif
 
-
 #include "Common/TypeTool.h"
-#include "Common/SmallObject.h"
 #include "Common/SharedPtr.h"
 #include "Common/AutoPtr.h"
 #include "Log/LogConfig.h"
+#include "Atomic/turf.h"
+
 
 namespace LightInk
 {
@@ -50,7 +51,7 @@ namespace LightInk
 		~LogLock();
 
 		void lock();
-		int32 try_lock();
+		bool try_lock();
 		void unlock();
 
 	private:
@@ -60,7 +61,7 @@ namespace LightInk
 		pthread_mutex_t m_handle;
 #endif
 
-	LIGHTINK_DISABLE_COPY(LogLock)
+		LIGHTINK_DISABLE_COPY(LogLock)
 	};
 
 	class LIGHTINK_DECL LogThread : public SmallObject
@@ -91,7 +92,7 @@ namespace LightInk
 		pthread_t m_handle;
 #endif
 
-	LIGHTINK_DISABLE_COPY(LogThread)
+		LIGHTINK_DISABLE_COPY(LogThread)
 	};
 
 #endif
@@ -102,7 +103,7 @@ namespace LightInk
 		LogEmptyLock() {}
 		~LogEmptyLock() {}
 		void lock() {}
-		int32 try_lock() { return 0; }
+		bool try_lock() { return true; }
 		void unlock() {}
 
 	};
@@ -133,9 +134,9 @@ namespace LightInk
 #define LogSharedPtrAuto LightInk::LogSharedPtr
 #define LogLockAuto LightInk::LogEmptyLock
 #endif
-	
+
 #define SelectSharedPtr(M, T) typename TypeSelect<IsSameType<M, LogEmptyLock>::Result, LogSharedPtr<T>::type, LogSharedPtrTS<T>::type>::Result
-	
+
 }
 
 

@@ -38,14 +38,6 @@ foreach(k ${sourceFile} )
   set( fullSourcePath ${fullSourcePath} ${sourceRootPath}/${middlePath}/${k} )
 endforeach(k)
 
-set( middlePath Atomic )
-set( sourceFile 
-	atomic_gcc_arm.c
-)
-foreach(k ${sourceFile} )
-  set( fullSourcePath ${fullSourcePath} ${sourceRootPath}/${middlePath}/${k} )
-endforeach(k)
-
 
 if (CMAKE_BUILD_TYPE STREQUAL Release)
 	add_definitions("-DNDEBUG")

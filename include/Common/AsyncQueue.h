@@ -94,11 +94,11 @@ namespace LightInk
 			{
 				return false;
 			}
-			if (m_writeIdx.compare_exchange(writeIdx, nextWriteIdx) != writeIdx)
+			if (!m_writeIdx.compare_exchange(writeIdx, nextWriteIdx))
 			{
 				continue;
 			}
-			while (m_queue[writeIdx].compare_exchange(NULL, t) != NULL) {  }
+			while (!m_queue[writeIdx].compare_exchange(NULL, t)) {  }
 			return true;
 		}
 	}
@@ -114,7 +114,7 @@ namespace LightInk
 				return NULL;
 			}
 			uint32 nextReadIdx = real_index(readIdx + 1);
-			if (m_readIdx.compare_exchange(readIdx, nextReadIdx) != readIdx)
+			if (!m_readIdx.compare_exchange(readIdx, nextReadIdx))
 			{
 				continue;
 			}

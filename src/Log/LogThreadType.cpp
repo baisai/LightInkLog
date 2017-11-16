@@ -58,7 +58,7 @@ namespace LightInk
 #endif
 	}
 
-	int32 LogLock::try_lock()
+	bool LogLock::try_lock()
 	{
 #ifdef _WIN32
 		return TryEnterCriticalSection(&m_handle) != FALSE;

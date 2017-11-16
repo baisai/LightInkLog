@@ -107,7 +107,7 @@ namespace LightInk
 	template <typename Allocator>
 	inline int64 RefCounterTS<Allocator>::dec_shared() 
 	{ 
-		int64 r = m_sharedRefs.fetch_add(-1);
+		int64 r = m_sharedRefs.fetch_sub(1);
 		if (r == 0) { m_sharedRefs.store(0); return r; }
 		return (r - 1); 
 	}
@@ -119,7 +119,7 @@ namespace LightInk
 	template <typename Allocator>
 	inline int64 RefCounterTS<Allocator>::dec_weak()
 	{
-		int64 r = m_weakRefs.fetch_add(-1);
+		int64 r = m_weakRefs.fetch_sub(1);
 		if (r == 0) { m_weakRefs.store(0); return r; }
 		return (r - 1);
 	}

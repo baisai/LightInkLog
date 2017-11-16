@@ -32,6 +32,8 @@
 
 #include TURF_C_IMPL_ATOMIC_PATH
 
+#ifndef TURF_ATOMIC_NOSUPPORT
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -428,6 +430,8 @@ TURF_C_INLINE uint64_t turf_fetchOr64(turf_atomic64_t* object, uint64_t operand,
 
 #ifdef __cplusplus
 } // extern "C"
+#endif
+
 #endif
 
 #endif // TURF_C_ATOMIC_H
